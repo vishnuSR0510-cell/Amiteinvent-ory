@@ -512,7 +512,45 @@ form button:hover {
   filter: grayscale(0%);
 }
 
- 
+.mobile-toggle {
+  display: none;
+  font-size: 1.5rem;
+  color: white;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .mobile-toggle {
+    display: block;
+  }
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .nav-links.active {
+    display: flex;
+  }
+}
+
+@media (max-width: 400px) {
+  .team-member {
+    width: 90%;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal-content,
+  .contact-form {
+    padding: 15px;
+  }
+
+  .contact-form input,
+  .contact-form textarea {
+    font-size: 0.9rem;
+  }
+}
+
   </style>
 </head>
 <body>
@@ -523,14 +561,24 @@ form button:hover {
       <h1><strong>Amite Invent-ory</strong></h1>
       <p>Your Friendly Inventory Partner</p>
     </div>
-    <nav>
+    <nav id="mainNav" class="nav-links">
       <a href="#home">Home</a>
       <a href="#products">Products</a>
       <a href="#team">Team</a>
       <a href="#contact">Contact</a>
+      <div class="mobile-toggle" onclick="toggleMenu()">☰</div>
+</nav>
+
     </nav>
   </div>
 </header>
+
+<script>
+  function toggleMenu() {
+    document.getElementById("mainNav").classList.toggle("active");
+  }
+</script>
+
 
 <section id="home" class="home-section">
   <h2>Welcome to Amite Invent-ory</h2>
