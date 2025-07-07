@@ -723,6 +723,10 @@ form button:hover {
 </script>
 
 
+<!-- Firebase SDKs (REQUIRED for Firestore) -->
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+
 <script>
   const firebaseConfig = {
     apiKey: "AIzaSyCQEAQ3S9lhWV-Tm5QP8MCNxtEd4_wUlsk",
@@ -754,22 +758,30 @@ form button:hover {
     };
 
     try {
-      // ✅ Save to Firestore
+      // ✅ Save to Firebase
       await db.collection("enquiries").add(data);
 
-      // ✅ Send Email Alert via Render backend
-      await fetch("https://amite-email.onrender.com/send-email", {
+      // ✅ Send Email via Render backend
+      const res = await fetch("https://amite-email.onrender.com/send-email", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data)
       });
 
-      alert("Form submitted successfully!");
-      this.reset();
-      document.getElementById("enquiryModal").style.display = "none";
+      const result = await res.json();
+      console.log("✅ Email result:", result);
+
+      if (result.success) {
+        alert("Form submitted successfully! Confirmation email sent.");
+        this.reset();
+        document.getElementById("enquiryModal").style.display = "none";
+      } else {
+        alert("Saved successfully, but email failed.");
+      }
+
     } catch (error) {
-      alert("Error submitting form. Please try again.");
-      console.error(error);
+      console.error("❌ Form error:", error);
+      alert("Something went wrong. Try again.");
     }
   });
 </script>
