@@ -723,18 +723,12 @@ form button:hover {
 </script>
 
 
-<!-- Other HTML content like your modal -->
-
-<!-- Firebase SDKs -->
-<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
-
 <script>
   const firebaseConfig = {
     apiKey: "AIzaSyCQEAQ3S9lhWV-Tm5QP8MCNxtEd4_wUlsk",
     authDomain: "amite-invent-ory.firebaseapp.com",
     projectId: "amite-invent-ory",
-    storageBucket: "amite-invent-ory.appspot.com",  // ✅ fixed
+    storageBucket: "amite-invent-ory.appspot.com",
     messagingSenderId: "701654052325",
     appId: "1:701654052325:web:3d6d2203b42ace7411930c",
     measurementId: "G-8H2DCR11KL"
@@ -758,32 +752,27 @@ form button:hover {
       queries: this.queries.value,
       timestamp: new Date()
     };
-try {
+
+    try {
       // ✅ Save to Firestore
       await db.collection("enquiries").add(data);
 
-      // ✅ Send Email Alert via your Render backend
+      // ✅ Send Email Alert via Render backend
       await fetch("https://amite-email.onrender.com/send-email", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data)
       });
 
-      alert("Enquiry submitted successfully and email sent!");
+      alert("Form submitted successfully!");
       this.reset();
       document.getElementById("enquiryModal").style.display = "none";
     } catch (error) {
-      console.error("Error:", error);
-      alert("Something went wrong. Please try again.");
+      alert("Error submitting form. Please try again.");
+      console.error(error);
     }
   });
 </script>
-
-</body>
-</html>
-
 
 
 
@@ -884,18 +873,20 @@ try {
     We'd love to hear from you! Whether you're interested in collaborating, learning more about our project, or just want to say hi — reach out to us below.
   </p>
 
+  <center>
+
   <div class="contact-container">
     <div class="contact-info">
       <h3>Team Info</h3>
       <p><strong>Startup Name:</strong> Amitet Invent-ory
-      <p><strong>Email:</strong> <a href="amitetinvent-ory.startup@gmail.com">amitetinvent-ory.startup@gmail.com</a></p>
+      <p><strong>Email:</strong> <a href="amiteinvertory07@gmail.com">amiteinvertory07@gmail.com</a></p>
       <p><strong>Phone:</strong> +91 9176860553</p>
 
       <div class="social-icons">
         <a href="https://instagram.com/your_instagram_id" target="_blank">
           <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/instagram.svg" alt="Instagram">
         </a>
-        <a href="mailto:visionarytech.startup@gmail.com" target="_blank">
+        <a href="mailto:amiteinvertory07@gmail.com" target="_blank">
           <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/gmail.svg" alt="Email">
         </a>
         <a href="https://www.linkedin.com/in/your_linkedin_id" target="_blank">
@@ -903,15 +894,8 @@ try {
         </a>
       </div>
     </div>
-
-    <div class="contact-form">
-      <form action="https://formspree.io/f/your-form-id" method="POST">
-        <input type="text" name="name" placeholder="Your Name" required>
-        <input type="email" name="email" placeholder="Your Email" required>
-        <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
-        <button type="submit">Send Message</button>
-      </form>
-    </div>
+</center>
+  
   </div>
 </section>
 
