@@ -722,6 +722,7 @@ form button:hover {
   });
 </script>
 
+
 <!-- Other HTML content like your modal -->
 
 <!-- Firebase SDKs -->
@@ -757,14 +758,24 @@ form button:hover {
       queries: this.queries.value,
       timestamp: new Date()
     };
-
-    try {
+try {
+      // ✅ Save to Firestore
       await db.collection("enquiries").add(data);
-      alert("Enquiry submitted successfully!");
+
+      // ✅ Send Email Alert via your Render backend
+      await fetch("https://amite-email.onrender.com/send-email", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+      });
+
+      alert("Enquiry submitted successfully and email sent!");
       this.reset();
       document.getElementById("enquiryModal").style.display = "none";
     } catch (error) {
-      console.error("Error adding document:", error);
+      console.error("Error:", error);
       alert("Something went wrong. Please try again.");
     }
   });
