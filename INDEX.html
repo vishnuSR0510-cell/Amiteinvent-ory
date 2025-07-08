@@ -263,7 +263,7 @@ body {
       }
 
       .home-section {
-        padding: 20px 15px;
+        padding: 15px 15px;
       }
     }
     .enquiry-section {
@@ -576,6 +576,74 @@ form button:hover {
     font-size: 0.9rem;
   }
 }
+@media (max-width: 768px) {
+  header {
+    transition: top 0.3s;
+  }
+}
+
+
+/* Mobile toggle hamburger */
+.mobile-toggle {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+  z-index: 1100;
+}
+
+.mobile-toggle div {
+  width: 30px;
+  height: 4px;
+  background-color: white;
+  margin: 5px 0;
+  transition: 0.4s;
+}
+
+/* Toggle animation to ❌ */
+.change .bar1 {
+  transform: rotate(-45deg) translate(-7px, 7px);
+}
+.change .bar2 {
+  opacity: 0;
+}
+.change .bar3 {
+  transform: rotate(45deg) translate(-7px, -7px);
+}
+
+/* Sidebar nav styles */
+@media (max-width: 768px) {
+  .mobile-toggle {
+    display: flex;
+  }
+
+  .nav-links {
+    position: fixed;
+    top: 0;
+    left: -250px;
+    width: 220px;
+    height: 100%;
+    background-color: #111;
+    flex-direction: column;
+    padding: 60px 20px;
+    transition: left 0.3s ease;
+    z-index: 1000;
+  }
+
+  .nav-links.active {
+    left: 0;
+  }
+
+  .nav-links a {
+    padding: 10px 0;
+    font-size: 1.2rem;
+    color: white;
+  }
+
+  .nav-links a.active {
+    color: #00ffcc;
+    font-weight: bold;
+  }
+}
 
   </style>
 </head>
@@ -587,13 +655,19 @@ form button:hover {
       <h1><strong>Amite Invent-ory</strong></h1>
       <p>Your Friendly Inventory Partner</p>
     </div>
-    <nav id="mainNav" class="nav-links">
-      <div class="mobile-toggle" onclick="toggleMenu()">☰</div>
-      <a href="#home">Home</a>
-      <a href="#products">Products</a>
-      <a href="#team">Team</a>
-      <a href="#contact">Contact</a>
+  <div class="mobile-toggle" onclick="toggleMenu(this)">
+  <div class="bar1"></div>
+  <div class="bar2"></div>
+  <div class="bar3"></div>
+</div>
+
+<nav id="mainNav" class="nav-links">
+  <a href="#home" class="nav-link">Home</a>
+  <a href="#products" class="nav-link">Products</a>
+  <a href="#team" class="nav-link">Team</a>
+  <a href="#contact" class="nav-link">Contact</a>
 </nav>
+
 
     </nav>
   </div>
@@ -722,6 +796,52 @@ form button:hover {
   });
 </script>
 
+<script>
+  function toggleMenu(x) {
+    x.classList.toggle("change");
+    document.getElementById("mainNav").classList.toggle("active");
+  }
+
+  // Hide header on scroll (mobile)
+  let lastScroll = 0;
+  const header = document.querySelector("header");
+
+  window.addEventListener("scroll", () => {
+    const current = window.scrollY;
+    if (window.innerWidth <= 768) {
+      header.style.top = current > lastScroll ? "-100px" : "0";
+      lastScroll = current <= 0 ? 0 : current;
+    }
+    highlightNav();
+  });
+
+  // Highlight active nav link
+  const sections = document.querySelectorAll("section[id]");
+  const navLinks = document.querySelectorAll(".nav-link");
+
+  function highlightNav() {
+    let scrollY = window.pageYOffset;
+
+    sections.forEach(section => {
+      const sectionTop = section.offsetTop - 150;
+      const sectionHeight = section.offsetHeight;
+      const sectionId = section.getAttribute("id");
+
+      if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
+        navLinks.forEach(link => {
+          link.classList.remove("active");
+          if (link.getAttribute("href") === `#${sectionId}`) {
+            link.classList.add("active");
+          }
+        });
+      }
+    });
+  }
+
+  window.addEventListener("scroll", highlightNav);
+</script>
+
+
 
 <!-- Firebase SDKs (REQUIRED for Firestore) -->
 <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
@@ -762,12 +882,13 @@ form button:hover {
       await db.collection("enquiries").add(data);
 
       // ✅ Send Email via Render backend
+      console.log("🚀 Sending data to backend:", data);
       const res = await fetch("https://amite-email.onrender.com/send-email", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data)
       });
-
+console.log("✅ Email API response:", result);
       const result = await res.json();
       console.log("✅ Email result:", result);
 
