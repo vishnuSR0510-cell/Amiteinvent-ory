@@ -905,90 +905,99 @@ header {
     if (e.target == modal) modal.style.display = "none";
   };
 </script>
-
-
-<!-- Enquiry Modal -->
-<div id="enquiryModal" class="modal">
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    <h2>Enquiry Form</h2>
-    <form id="enquiryForm">
-      <!-- All your inputs here -->
-      <button type="submit">Send</button>
-    </form>
-  </div>
-</div>
 </section>
+
+
 <section class="enquiry-section">
-  <p class="enquiry-text">
-    Interested in buying or have any enquiries about our products and projects? 
-    <a href="#contact" class="enquiry-btn">Click Here </a>
-  </p>
-</section>
-<!-- Popup Modal -->
-<div id="enquiryModal" class="modal">
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    <h2>Enquiry Form</h2>
-    <form id="enquiryForm">
-      <label for="name">Name:</label>
-      <input type="text" id="name" name="name" required>
+  <h2>Interested in buying or have any enquiries about our products and projects?</h2>
+  <button class="enquiry-btn" onclick="openEnquiryModal()">Click Here </button>
 
-      <label for="type">Type:</label>
-      <select id="type" name="type" required>
-        <option value="">--Select--</option>
-        <option value="Mini Project">Mini Project</option>
-        <option value="Project">Project</option>
-        <option value="Product">Product</option>
-      </select>
+  <div id="enquiryModal" class="enquiry-modal">
+    <div class="enquiry-modal-content">
+      <span class="enquiry-close-btn" onclick="closeEnquiryModal()">&times;</span>
+      <h3 class="enquiry-title">Customer Enquiry Form</h3>
+      <form id="enquiryForm" class="enquiry-form">
+        <label for="name">Name:</label>
+        <input type="text" id="name" required>
 
-      <label for="reg">Reg Number:</label>
-      <input type="text" id="reg" name="reg" required>
+        <label for="type">Type:</label>
+        <select id="type" required>
+          <option value="">--Select--</option>
+          <option value="project">Project</option>
+          <option value="mini project">Mini Project</option>
+          <option value="product">Product</option>
+        </select>
 
-      <label for="phone">Phone Number:</label>
-      <input type="tel" id="phone" name="phone" required>
+        <label for="regno">Reg Number:</label>
+        <input type="text" id="regno" required>
 
-      <label for="email">Email:</label>
-      <input type="email" id="email" name="email" required>
+        <label for="phone">Phone Number:</label>
+        <input type="tel" id="phone" pattern="[0-9]{10}" required>
 
-      <label for="college">College Name:</label>
-      <input type="text" id="college" name="college" required>
+        <label for="email">Email ID:</label>
+        <input type="email" id="email" required>
+        
+        <label for="queries">Queries:</label>
+        <textarea id="queries" rows="4" required></textarea>
 
-      <label for="city">City:</label>
-      <input type="text" id="city" name="city" required>
-
-      <label for="state">State:</label>
-      <input type="text" id="state" name="state" required>
-
-      <label for="queries">Queries:</label>
-      <textarea id="queries" name="queries" rows="4" required></textarea>
-
-      <button type="submit">Send</button>
-    </form>
+        <button type="submit">Send</button>
+      </form>
+    </div>
   </div>
-</div>
+</section>
+
 <script>
-  const modal = document.getElementById("enquiryModal");
-  const openBtn = document.querySelector(".enquiry-btn");
-  const closeBtn = document.querySelector(".close");
+  function openEnquiryModal() {
+    document.getElementById("enquiryModal").style.display = "flex";
+  }
 
-  openBtn.addEventListener("click", function (event) {
-    event.preventDefault(); // Stops link from navigating
-    modal.style.display = "flex"; // Use flex if your modal uses flex layout
-  });
+  function closeEnquiryModal() {
+    document.getElementById("enquiryModal").style.display = "none";
+  }
 
-  closeBtn.addEventListener("click", function () {
-    modal.style.display = "none";
-  });
-
-  window.addEventListener("click", function (event) {
+  // Close when clicking outside
+  window.onclick = function(event) {
+    const modal = document.getElementById("enquiryModal");
     if (event.target === modal) {
       modal.style.display = "none";
     }
+  }
+
+  // On form submit
+  document.getElementById('enquiryForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    alert("Form submitted successfully!");
+    closeEnquiryModal();
+    this.reset();
   });
 </script>
 
 
+  <script>
+    function openModal() {
+      document.getElementById("enquiryModal").style.display = "block";
+    }
+
+    function closeModal() {
+      document.getElementById("enquiryModal").style.display = "none";
+    }
+
+    // Optional: close modal when clicking outside the box
+    window.onclick = function(event) {
+      const modal = document.getElementById("enquiryModal");
+      if (event.target === modal) {
+        modal.style.display = "none";
+      }
+    }
+
+    // Handle form submission
+    document.getElementById('enquiryForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      alert("Form submitted successfully!");
+      closeModal();
+      this.reset(); // reset form after submission
+    });
+  </script>
 
 <script>
   function toggleMenu(x) {
@@ -1068,77 +1077,8 @@ header {
 
 
 
-<!-- Firebase SDKs (REQUIRED for Firestore) -->
-<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
 
 <script>
-  const firebaseConfig = {
-    apiKey: "AIzaSyCQEAQ3S9lhWV-Tm5QP8MCNxtEd4_wUlsk",
-    authDomain: "amite-invent-ory.firebaseapp.com",
-    projectId: "amite-invent-ory",
-    storageBucket: "amite-invent-ory.appspot.com",
-    messagingSenderId: "701654052325",
-    appId: "1:701654052325:web:3d6d2203b42ace7411930c",
-    measurementId: "G-8H2DCR11KL"
-  };
-
-  firebase.initializeApp(firebaseConfig);
-  const db = firebase.firestore();
-
-document.getElementById("enquiryForm").addEventListener("submit", async function (e) {
-  e.preventDefault();
-
-  const data = {
-    name: this.name.value,
-    type: this.type.value,
-    reg: this.reg.value,
-    phone: this.phone.value,
-    email: this.email.value,
-    college: this.college.value,
-    city: this.city.value,
-    state: this.state.value,
-    queries: this.queries.value,
-    timestamp: new Date()
-  };
-
-  try {
-    // ✅ 1. Save to Firebase
-    await db.collection("enquiries").add(data);
-
-    // ✅ 2. Send Email
-    const response = await fetch("https://amite-email.onrender.com/send-email", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data)
-    });
-
-    let result = {};
-    try {
-      result = await response.json();
-    } catch (err) {
-      console.error("Invalid JSON response from backend");
-    }
-
-    // ✅ 3. Alert based on result
-    if (response.ok && result.success) {
-      alert("✅ Form submitted successfully! Confirmation email sent.");
-    } else {
-      alert("✔️ Form saved, but email not sent. We'll reach out manually.");
-    }
-
-    this.reset();
-    document.getElementById("enquiryModal").style.display = "none";
-
-  } catch (error) {
-    console.error("❌ Submission error:", error);
-    alert("Something went wrong. Try again later.");
-  }
-});
-</script>
-
-<script>
-
 
 function closeMenu() {
   document.querySelector(".mobile-toggle")?.classList.remove("change");
@@ -1180,7 +1120,7 @@ function closeMenu() {
 
     <!-- 3. Sai Pranith -->
     <div class="team-member">
-      <img src="images/sai.jpg" alt="Sai Pranith">
+      <img src="sai.jpg" alt="Sai Pranith">
       <h3>Sai Pranith</h3>
       <p>B.E. EEE</p>
       <p>Product Management</p>
@@ -1281,6 +1221,48 @@ function closeMenu() {
 </footer>
 
 
+
+<script>
+  function openEnquiryModal() {
+    document.getElementById("enquiryModal").style.display = "flex";
+  }
+
+  function closeEnquiryModal() {
+    document.getElementById("enquiryModal").style.display = "none";
+  }
+
+  document.getElementById('enquiryForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const name = document.getElementById('name').value;
+    const type = document.getElementById('type').value;
+    const regno = document.getElementById('regno').value;
+    const phone = document.getElementById('phone').value;
+    const email = document.getElementById('email').value;
+    const queries = document.getElementById('queries').value;
+
+    fetch('https://amite-backend.onrender.com/send-email', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ name, type, regno, phone, email, queries })
+    })
+    .then(res => {
+      if (res.ok) {
+        alert("✅ Thank you! Your enquiry has been submitted.");
+        closeEnquiryModal();
+        document.getElementById('enquiryForm').reset();
+      } else {
+        throw new Error("Submission failed.");
+      }
+    })
+    .catch(error => {
+      alert("❌ Something went wrong. Please try again later.");
+      console.error("Error:", error);
+    });
+  });
+</script>
 
 
 
@@ -1410,6 +1392,83 @@ function closeMenu() {
 }
 .close-btn:hover {
   color: #000;
+}
+
+</style>
+
+<style>
+
+
+  /* Enquiry Modal Scoped Styles */
+.enquiry-modal {
+  display: none;
+  position: fixed;
+  z-index: 3000;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  justify-content: center;
+  align-items: center;
+}
+
+.enquiry-modal-content {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 500px;
+  position: relative;
+  animation: enquiryFadeIn 0.3s ease-in-out;
+}
+
+@keyframes enquiryFadeIn {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.enquiry-close-btn {
+  position: absolute;
+  top: 10px;
+  right: 18px;
+  font-size: 24px;
+  color: #888;
+  cursor: pointer;
+}
+.enquiry-close-btn:hover {
+  color: #000;
+}
+
+.enquiry-form label {
+  display: block;
+  margin-top: 10px;
+  font-weight: 600;
+  color: #333;
+}
+
+.enquiry-form input,
+.enquiry-form select,
+.enquiry-form textarea {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
+.enquiry-form button {
+  margin-top: 15px;
+  padding: 10px 20px;
+  background-color: #00796b;
+  border: none;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.enquiry-form button:hover {
+  background-color: #004d40;
 }
 
 </style>
