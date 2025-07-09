@@ -917,31 +917,32 @@ header {
       <span class="enquiry-close-btn" onclick="closeEnquiryModal()">&times;</span>
       <h3 class="enquiry-title">Customer Enquiry Form</h3>
       <form id="enquiryForm" class="enquiry-form">
-        <label for="name">Name:</label>
-        <input type="text" id="name" required>
+  <label for="name">Name:</label>
+  <input type="text" id="name" required>
 
-        <label for="type">Type:</label>
-        <select id="type" required>
-          <option value="">--Select--</option>
-          <option value="project">Project</option>
-          <option value="mini project">Mini Project</option>
-          <option value="product">Product</option>
-        </select>
+  <label for="type">Type:</label>
+  <select id="type" required>
+    <option value="">--Select--</option>
+    <option value="Project">Project</option>
+    <option value="Mini Project">Mini Project</option>
+    <option value="Product">Product</option>
+  </select>
 
-        <label for="regno">Reg Number:</label>
-        <input type="text" id="regno" required>
+  <label for="regno">Reg Number:</label>
+  <input type="text" id="regno" required>
 
-        <label for="phone">Phone Number:</label>
-        <input type="tel" id="phone" pattern="[0-9]{10}" required>
+  <label for="phone">Phone Number:</label>
+  <input type="tel" id="phone" pattern="[0-9]{10}" required>
 
-        <label for="email">Email ID:</label>
-        <input type="email" id="email" required>
-        
-        <label for="queries">Queries:</label>
-        <textarea id="queries" rows="4" required></textarea>
+  <label for="email">Email ID:</label>
+  <input type="email" id="email" required>
 
-        <button type="submit">Send</button>
-      </form>
+  <label for="queries">Queries:</label>
+  <textarea id="queries" rows="4" required></textarea>
+
+  <button type="submit">Send</button>
+</form>
+
     </div>
   </div>
 </section>
@@ -1240,6 +1241,7 @@ function closeMenu() {
     const phone = document.getElementById('phone').value;
     const email = document.getElementById('email').value;
     const queries = document.getElementById('queries').value;
+
 
     fetch('https://amite-backend.onrender.com/send-email', {
       method: 'POST',
