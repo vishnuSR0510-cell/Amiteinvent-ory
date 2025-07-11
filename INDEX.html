@@ -1250,18 +1250,18 @@ function closeMenu() {
       const result = await res.json();
 
       if (result.success) {
-        alert("✅ Enquiry sent successfully! Check your email.");
+        alert("✅ Enquiry submitted! You'll receive a confirmation email.");
         enquiryForm.reset();
       } else {
         alert("❌ Something went wrong. Please try again.");
       }
-
     } catch (err) {
       alert("❌ Network error. Please try again later.");
       console.error(err);
     }
   });
 </script>
+
 
 
 
