@@ -923,9 +923,9 @@ header {
   <label for="type">Type:</label>
   <select id="type" required>
     <option value="">--Select--</option>
-    <option value="Project">Project</option>
-    <option value="Mini Project">Mini Project</option>
-    <option value="Product">Product</option>
+    <option value="project">Project</option>
+    <option value="mini project">Mini Project</option>
+    <option value="product">Product</option>
   </select>
 
   <label for="regno">Reg Number:</label>
@@ -936,12 +936,13 @@ header {
 
   <label for="email">Email ID:</label>
   <input type="email" id="email" required>
-
+  
   <label for="queries">Queries:</label>
   <textarea id="queries" rows="4" required></textarea>
 
   <button type="submit">Send</button>
 </form>
+
 
     </div>
   </div>
@@ -1224,43 +1225,48 @@ function closeMenu() {
 
 
 <script>
-  const enquiryForm = document.getElementById('enquiryForm');
+  window.addEventListener("DOMContentLoaded", function () {
+    const enquiryForm = document.getElementById('enquiryForm');
 
-  enquiryForm.addEventListener('submit', async function (e) {
-    e.preventDefault();
+    enquiryForm.addEventListener('submit', async function (e) {
+      e.preventDefault();
 
-    const data = {
-      name: document.getElementById('name').value,
-      type: document.getElementById('type').value,
-      regno: document.getElementById('regno').value,
-      phone: document.getElementById('phone').value,
-      email: document.getElementById('email').value,
-      queries: document.getElementById('queries').value
-    };
+      const data = {
+        name: document.getElementById('name').value,
+        type: document.getElementById('type').value,
+        regno: document.getElementById('regno').value,
+        phone: document.getElementById('phone').value,
+        email: document.getElementById('email').value,
+        queries: document.getElementById('queries').value
+      };
 
-    try {
-      const res = await fetch('https://amite-backend-1.onrender.com/send-email', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-      });
+      console.log("📦 Sending to backend:", data); // For debug
 
-      const result = await res.json();
+      try {
+        const res = await fetch('https://amite-backend-1.onrender.com/send-email', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+        });
 
-      if (result.success) {
-        alert("✅ Enquiry submitted! You'll receive a confirmation email.");
-        enquiryForm.reset();
-      } else {
-        alert("❌ Something went wrong. Please try again.");
+        const result = await res.json();
+
+        if (result.success) {
+          alert("✅ Enquiry submitted! You'll receive a confirmation email.");
+          enquiryForm.reset();
+        } else {
+          alert("❌ Something went wrong. Please try again.");
+        }
+      } catch (err) {
+        alert("❌ Network error. Please try again later.");
+        console.error(err);
       }
-    } catch (err) {
-      alert("❌ Network error. Please try again later.");
-      console.error(err);
-    }
+    });
   });
 </script>
+
 
 
 
