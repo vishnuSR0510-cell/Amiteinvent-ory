@@ -1224,47 +1224,45 @@ function closeMenu() {
 
 
 <script>
-  function openEnquiryModal() {
-    document.getElementById("enquiryModal").style.display = "flex";
-  }
+  const enquiryForm = document.getElementById('enquiryForm');
 
-  function closeEnquiryModal() {
-    document.getElementById("enquiryModal").style.display = "none";
-  }
-
-  document.getElementById('enquiryForm').addEventListener('submit', function(e) {
+  enquiryForm.addEventListener('submit', async function (e) {
     e.preventDefault();
 
-    const name = document.getElementById('name').value;
-    const type = document.getElementById('type').value;
-    const regno = document.getElementById('regno').value;
-    const phone = document.getElementById('phone').value;
-    const email = document.getElementById('email').value;
-    const queries = document.getElementById('queries').value;
+    const data = {
+      name: document.getElementById('name').value,
+      type: document.getElementById('type').value,
+      regno: document.getElementById('regno').value,
+      phone: document.getElementById('phone').value,
+      email: document.getElementById('email').value,
+      queries: document.getElementById('queries').value
+    };
 
+    try {
+      const res = await fetch('https://amite-backend-1.onrender.com/send-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      });
 
-    fetch('https://amite-backend.onrender.com/send-email', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ name, type, regno, phone, email, queries })
-    })
-    .then(res => {
-      if (res.ok) {
-        alert("✅ Thank you! Your enquiry has been submitted.");
-        closeEnquiryModal();
-        document.getElementById('enquiryForm').reset();
+      const result = await res.json();
+
+      if (result.success) {
+        alert("✅ Enquiry sent successfully! Check your email.");
+        enquiryForm.reset();
       } else {
-        throw new Error("Submission failed.");
+        alert("❌ Something went wrong. Please try again.");
       }
-    })
-    .catch(error => {
-      alert("❌ Something went wrong. Please try again later.");
-      console.error("Error:", error);
-    });
+
+    } catch (err) {
+      alert("❌ Network error. Please try again later.");
+      console.error(err);
+    }
   });
 </script>
+
 
 
 
