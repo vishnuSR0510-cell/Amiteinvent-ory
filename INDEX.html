@@ -1,0 +1,1867 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Amite Invent-ory — Teaching Tomorrow's Technology, Today</title>
+<meta name="description" content="Amite Invent-ory is an engineering and technology venture building practical solutions across IoT, embedded systems, robotics, drones and smart energy.">
+<link rel="icon" type="image/png" href="assets/logo.png.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+:root{
+  --white:#ffffff;
+  --ice:#f2f9ff;
+  --ice-2:#e5f3ff;
+  --sky:#2fa8e8;
+  --sky-deep:#0c7fc2;
+  --sky-dark:#0a5c94;
+  --navy:#0a2540;
+  --slate:#4c6070;
+  --slate-light:#7d92a3;
+  --line:#d7e9f7;
+  --glow:#8fd6ff;
+  --radius:18px;
+  --shadow-soft:0 20px 50px -25px rgba(10,37,64,0.25);
+  --shadow-card:0 14px 34px -18px rgba(12,127,194,0.35);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Inter',sans-serif;
+  color:var(--navy);
+  background:var(--white);
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4,.font-display{font-family:'Space Grotesk',sans-serif;}
+a{text-decoration:none;color:inherit;}
+ul{list-style:none;}
+img{max-width:100%;display:block;}
+.container{max-width:1240px;margin:0 auto;padding:0 32px;}
+section{position:relative;}
+::selection{background:var(--sky);color:#fff;}
+button{font-family:inherit;cursor:pointer;}
+
+/* ---------- scrollbar ---------- */
+::-webkit-scrollbar{width:10px;}
+::-webkit-scrollbar-track{background:var(--ice);}
+::-webkit-scrollbar-thumb{background:var(--sky);border-radius:10px;}
+
+/* ---------- header ---------- */
+header{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:18px 40px;
+  background:rgba(255,255,255,0.72);
+  backdrop-filter:blur(16px) saturate(160%);
+  -webkit-backdrop-filter:blur(16px) saturate(160%);
+  border-bottom:1px solid rgba(47,168,232,0.14);
+  transition:padding .3s ease, box-shadow .3s ease;
+}
+header.scrolled{padding:12px 40px;box-shadow:0 10px 30px -20px rgba(10,37,64,0.25);}
+.logo{display:flex;align-items:center;gap:11px;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.18rem;color:var(--navy);}
+.logo-mark{
+  width:52px;
+  height:52px;
+  border-radius:0;
+  background:transparent;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#fff;
+  font-size:1rem;
+  box-shadow:none;
+  transform-style:preserve-3d;
+  overflow:hidden;
+  flex-shrink:0;
+}
+
+.logo-mark img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+}
+.logo-mark img.hidden-fallback{display:none;}
+.logo span.dim{color:var(--sky-deep);font-weight:500;}
+nav{display:flex;align-items:center;gap:34px;}
+.nav-link{font-size:.94rem;font-weight:500;color:var(--slate);position:relative;padding:4px 0;}
+.nav-link::after{content:'';position:absolute;left:0;bottom:-3px;width:0;height:2px;background:var(--sky);transition:width .25s ease;}
+.nav-link:hover{color:var(--navy);}
+.nav-link:hover::after{width:100%;}
+.nav-cta{
+  background:linear-gradient(120deg,var(--sky),var(--sky-deep));
+  color:#fff !important;padding:11px 22px;border-radius:100px;font-weight:600;font-size:.9rem;
+  box-shadow:0 10px 24px -10px rgba(12,127,194,0.55);
+  transition:transform .25s ease, box-shadow .25s ease;
+}
+.nav-cta:hover{transform:translateY(-2px);box-shadow:0 16px 30px -10px rgba(12,127,194,0.65);}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;z-index:1001;}
+.hamburger span{width:24px;height:2px;background:var(--navy);border-radius:2px;transition:.3s;}
+.mobile-nav{
+  position:fixed;top:0;right:-100%;width:78%;max-width:340px;height:100vh;background:var(--white);
+  z-index:999;padding:100px 32px 40px;transition:right .35s ease;box-shadow:-20px 0 50px -20px rgba(10,37,64,.3);
+  display:flex;flex-direction:column;gap:26px;
+}
+.mobile-nav.open{right:0;}
+.mobile-overlay{position:fixed;inset:0;background:rgba(10,37,64,.35);backdrop-filter:blur(2px);z-index:998;opacity:0;pointer-events:none;transition:opacity .3s;}
+.mobile-overlay.open{opacity:1;pointer-events:auto;}
+
+/* ---------- hero ---------- */
+#home{
+  padding:170px 0 100px;
+  background:
+    radial-gradient(ellipse 900px 500px at 82% 10%, rgba(47,168,232,0.16), transparent 60%),
+    radial-gradient(ellipse 700px 500px at 5% 90%, rgba(143,214,255,0.22), transparent 60%),
+    var(--white);
+  position:relative;
+}
+.hero-grid{display:grid;grid-template-columns:1.05fr 0.95fr;gap:20px;align-items:flex-start;}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:9px;font-size:.85rem;font-weight:600;color:var(--sky-deep);
+  background:var(--ice-2);border:1px solid var(--line);padding:8px 16px;border-radius:100px;margin-bottom:26px;}
+.hero-eyebrow i{color:var(--sky);}
+.hero-title{font-size:clamp(2.4rem,4.6vw,3.9rem);line-height:1.06;font-weight:700;color:var(--navy);letter-spacing:-.01em;}
+.hero-title .line-accent{
+  background:linear-gradient(100deg,var(--sky-deep),var(--sky) 55%,var(--glow));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.hero-desc{margin-top:24px;font-size:1.08rem;line-height:1.7;color:var(--slate);max-width:520px;}
+.hero-btns{display:flex;gap:16px;margin-top:38px;flex-wrap:wrap;}
+.btn-primary{
+  background:linear-gradient(120deg,var(--sky),var(--sky-deep));color:#fff;padding:15px 28px;border-radius:100px;
+  font-weight:600;font-size:.96rem;display:inline-flex;align-items:center;gap:10px;border:none;
+  box-shadow:0 16px 34px -12px rgba(12,127,194,0.55);transition:transform .25s ease,box-shadow .25s ease;
+}
+.btn-primary:hover{transform:translateY(-3px);box-shadow:0 22px 40px -12px rgba(12,127,194,0.65);}
+.btn-ghost{
+  border:1.5px solid var(--line);color:var(--navy);padding:15px 28px;border-radius:100px;font-weight:600;font-size:.96rem;
+  display:inline-flex;align-items:center;gap:10px;transition:.25s ease;background:rgba(255,255,255,.6);
+}
+.btn-ghost:hover{border-color:var(--sky);background:var(--ice-2);}
+.hero-stat strong{display:block;font-family:'Space Grotesk',sans-serif;font-size:1.9rem;color:var(--navy);}
+.hero-stat span{font-size:.84rem;color:var(--slate-light);}
+
+/* hero 3d canvas */
+.hero-visual{position:relative;height:560px;perspective:1400px;margin-top:0;}
+#heroCanvas{width:100%;height:100%;display:block;}
+.hero-visual-badge{
+  position:absolute;bottom:14px;left:14px;background:rgba(255,255,255,.85);backdrop-filter:blur(10px);
+  border:1px solid var(--line);border-radius:14px;padding:12px 16px;display:flex;align-items:center;gap:10px;
+  box-shadow:var(--shadow-soft);font-size:.82rem;font-weight:600;color:var(--sky-dark);
+}
+.hero-visual-badge i{color:var(--sky);}
+
+/* ---------- standalone circuit board section ---------- */
+.circuit-section{background:radial-gradient(ellipse 900px 600px at 15% 20%, rgba(47,168,232,0.08), transparent 60%), #071a30;}
+.circuit-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;}
+.circuit-visual{position:relative;height:460px;}
+#circuitCanvas{width:100%;height:100%;display:block;}
+.circuit-visual-badge{
+  position:absolute;bottom:14px;left:14px;background:rgba(10,37,64,.55);backdrop-filter:blur(10px);
+  border:1px solid rgba(143,214,255,0.25);border-radius:14px;padding:12px 16px;display:flex;align-items:center;gap:10px;
+  font-size:.82rem;font-weight:600;color:var(--glow);
+}
+.circuit-visual-badge i{color:var(--sky);}
+.circuit-section .section-tag{color:var(--glow);}
+.circuit-section .section-tag::before{background:var(--sky);}
+.circuit-section .section-title{color:#fff;}
+.circuit-section .section-sub{color:rgba(255,255,255,.62);}
+@media(max-width:960px){
+  .circuit-grid{grid-template-columns:1fr;}
+  .circuit-visual{height:360px;order:-1;}
+}
+
+/* ---------- section shared ---------- */
+.section-pad{padding:120px 0;}
+.section-head{max-width:680px;margin-bottom:64px;}
+.section-tag{color:var(--sky-deep);font-weight:600;font-size:.9rem;margin-bottom:14px;display:flex;align-items:center;gap:9px;}
+.section-tag::before{content:'';width:26px;height:2px;background:var(--sky);border-radius:2px;}
+.section-title{font-size:clamp(1.9rem,3.2vw,2.6rem);font-weight:700;color:var(--navy);letter-spacing:-.01em;}
+.section-sub{margin-top:16px;font-size:1.04rem;color:var(--slate);line-height:1.7;}
+.center{text-align:center;margin-left:auto;margin-right:auto;}
+
+/* ---------- about / gap ---------- */
+#about{background:var(--ice);}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:70px;align-items:start;}
+.about-copy p{color:var(--slate);line-height:1.75;font-size:1.02rem;margin-bottom:18px;}
+.about-copy strong{color:var(--navy);}
+.philosophy-box{
+  background:linear-gradient(135deg,var(--navy),#0d3357);color:#fff;border-radius:var(--radius);padding:34px 32px;
+  margin-top:26px;box-shadow:var(--shadow-soft);
+}
+.philosophy-box p{color:rgba(255,255,255,.85);font-style:normal;font-size:1.02rem;line-height:1.6;margin:0;}
+.philosophy-box strong{color:#fff;}
+
+.cycle-wrap{position:relative;}
+.cycle-list{display:flex;flex-direction:column;gap:0;}
+.cycle-item{
+  display:flex;gap:18px;padding:20px 0;position:relative;
+}
+.cycle-item:not(:last-child){border-bottom:1px dashed var(--line);}
+.cycle-num{
+  flex:none;width:46px;height:46px;border-radius:50%;background:var(--white);border:2px solid var(--sky);
+  display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-weight:700;
+  color:var(--sky-deep);transform-style:preserve-3d;transition:transform .3s ease, background .3s ease, color .3s ease;
+}
+.cycle-item:hover .cycle-num{background:var(--sky);color:#fff;transform:translateZ(10px) rotateY(10deg);}
+.cycle-text h4{font-size:1.08rem;color:var(--navy);margin-bottom:4px;}
+.cycle-text p{font-size:.92rem;color:var(--slate-light);}
+
+/* ---------- domains ---------- */
+#domains{background:var(--white);}
+.domain-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;}
+.tilt-card{
+  background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:30px 24px;
+  box-shadow:var(--shadow-card);transform-style:preserve-3d;will-change:transform;
+  transition:box-shadow .3s ease, border-color .3s ease;cursor:default;
+}
+.tilt-card:hover{border-color:var(--sky);box-shadow:0 26px 50px -18px rgba(12,127,194,0.45);}
+.tilt-inner{transform:translateZ(24px);}
+.domain-icon{
+  width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,var(--ice-2),var(--white));
+  border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:1.3rem;color:var(--sky-deep);
+  margin-bottom:20px;
+}
+.domain-grid h4{font-size:1.02rem;color:var(--navy);margin-bottom:8px;}
+.domain-grid p{font-size:.86rem;color:var(--slate-light);line-height:1.55;}
+
+/* ---------- projects ---------- */
+#projects{background:linear-gradient(180deg,var(--ice) 0%, var(--white) 100%);}
+.project-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:26px;}
+.project-card{
+  position:relative;border-radius:22px;padding:38px 34px;overflow:hidden;
+  background:var(--white);border:1px solid var(--line);box-shadow:var(--shadow-card);
+  transform-style:preserve-3d;will-change:transform;transition:box-shadow .3s ease;
+}
+.project-card:hover{box-shadow:0 30px 60px -20px rgba(12,127,194,0.45);}
+.project-card .pc-glow{
+  position:absolute;top:-60px;right:-60px;width:200px;height:200px;border-radius:50%;
+  background:radial-gradient(circle,rgba(47,168,232,0.22),transparent 70%);pointer-events:none;
+}
+.pc-top{display:flex;align-items:center;justify-content:space-between;transform:translateZ(28px);}
+.pc-icon{
+  width:58px;height:58px;border-radius:16px;background:linear-gradient(135deg,var(--sky),var(--sky-deep));
+  display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.45rem;
+  box-shadow:0 14px 26px -10px rgba(12,127,194,0.6);
+}
+.pc-index{font-family:'Space Grotesk',sans-serif;color:var(--line);font-size:2.1rem;font-weight:700;}
+.project-card h3{margin-top:24px;font-size:1.32rem;color:var(--navy);transform:translateZ(28px);position:relative;}
+.project-card p{margin-top:12px;color:var(--slate);font-size:.95rem;line-height:1.65;max-width:440px;transform:translateZ(20px);position:relative;}
+.pc-tags{display:flex;flex-wrap:wrap;gap:9px;margin-top:20px;transform:translateZ(20px);position:relative;}
+.pc-tags span{font-size:.76rem;font-weight:600;color:var(--sky-dark);background:var(--ice-2);border:1px solid var(--line);
+  padding:6px 12px;border-radius:100px;}
+
+/* ---------- differentiators ---------- */
+#edge{background:var(--white);}
+.edge-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;}
+.edge-card{text-align:left;padding:8px 4px;}
+.edge-card .num{font-family:'Space Grotesk',sans-serif;font-size:.85rem;color:var(--sky);font-weight:700;margin-bottom:14px;}
+.edge-card h4{font-size:1.08rem;color:var(--navy);margin-bottom:10px;}
+.edge-card p{font-size:.9rem;color:var(--slate-light);line-height:1.6;}
+.edge-card{border-top:2px solid var(--line);padding-top:22px;}
+
+/* ---------- team : minimal photo + name cards ---------- */
+#team{background:linear-gradient(180deg,var(--white), var(--ice) 100%);}
+.team-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:28px;}
+.team-card{
+  background:var(--white);border:1px solid var(--line);border-radius:20px;padding:0;text-align:center;
+  box-shadow:var(--shadow-card);transform-style:preserve-3d;will-change:transform;
+  transition:box-shadow .3s ease, border-color .3s ease, transform .3s ease;
+  width:100%;overflow:hidden;position:relative;display:flex;flex-direction:column;
+}
+.team-card:hover{box-shadow:0 30px 60px -18px rgba(12,127,194,0.42);border-color:var(--sky);}
+.team-card:focus-visible{outline:2px solid var(--sky);outline-offset:3px;}
+
+/* photo fills the card fully, edge to edge */
+.card-photo{
+  position:relative;width:100%;aspect-ratio:1/1;overflow:hidden;
+  background:linear-gradient(135deg,var(--sky),var(--navy));
+}
+.card-photo img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;}
+.card-photo .initials{
+  position:relative;z-index:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;
+  color:#fff;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.9rem;
+}
+.card-name{padding:16px 14px 18px;}
+.card-name h3{font-size:1.0rem;color:var(--navy);font-family:'Space Grotesk',sans-serif;}
+.view-hint{display:block;font-size:.7rem;color:var(--sky-deep);font-weight:600;margin-top:6px;opacity:0;transition:opacity .25s ease;}
+.team-card:hover .view-hint{opacity:1;}
+
+/* team modal — photo on one side, details on the other */
+.team-modal-overlay{
+  position:fixed;inset:0;background:rgba(10,37,64,.55);backdrop-filter:blur(4px);z-index:1100;
+  display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;pointer-events:none;transition:opacity .25s ease;
+}
+.team-modal-overlay.open{opacity:1;pointer-events:auto;}
+.team-modal{
+  background:var(--white);border-radius:22px;max-width:560px;width:100%;padding:38px 34px 32px;position:relative;
+  box-shadow:0 40px 80px -20px rgba(10,37,64,.5);transform:translateY(18px) scale(.97);transition:transform .25s ease;
+}
+.team-modal-overlay.open .team-modal{transform:translateY(0) scale(1);}
+.team-modal-close{
+  position:absolute;top:18px;right:18px;width:34px;height:34px;border-radius:50%;border:1px solid var(--line);
+  background:var(--ice);display:flex;align-items:center;justify-content:center;color:var(--slate);font-size:.9rem;z-index:2;
+}
+.team-modal-close:hover{background:var(--ice-2);color:var(--navy);}
+#teamModalBody{display:flex;gap:26px;align-items:flex-start;}
+.modal-photo{
+  flex:none;width:150px;height:150px;border-radius:18px;overflow:hidden;position:relative;
+  background:linear-gradient(135deg,var(--sky),var(--navy));box-shadow:0 14px 30px -12px rgba(10,37,64,.4);
+}
+.modal-photo img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;}
+.modal-photo .initials{
+  position:relative;z-index:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;
+  color:#fff;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.7rem;
+}
+.modal-details{flex:1;min-width:0;text-align:left;}
+.modal-details h3{font-size:1.25rem;color:var(--navy);}
+.modal-details .role{font-size:.86rem;color:var(--sky-deep);font-weight:600;margin-top:6px;}
+.modal-details .dept{font-size:.8rem;color:var(--slate-light);margin-top:2px;}
+.modal-details .bio{font-size:.9rem;color:var(--slate);line-height:1.6;margin-top:14px;}
+.id-qr-row{display:flex;align-items:center;gap:10px;margin-top:16px;}
+.id-qr-box{width:56px;height:56px;background:#fff;border:1px solid var(--line);border-radius:8px;padding:4px;flex:none;display:flex;align-items:center;justify-content:center;}
+.id-qr-box img,.id-qr-box canvas{width:100%;height:100%;}
+.id-scan-text{font-size:.7rem;color:var(--slate-light);text-align:left;line-height:1.35;}
+.id-scan-text strong{display:block;color:var(--sky-dark);font-size:.72rem;font-weight:600;}
+.team-socials{display:flex;justify-content:flex-start;gap:10px;margin-top:16px;}
+.team-socials a{
+  width:36px;height:36px;border-radius:50%;background:var(--ice-2);display:flex;align-items:center;justify-content:center;
+  color:var(--sky-dark);font-size:.88rem;transition:.25s ease;
+}
+.team-socials a:hover{background:var(--sky);color:#fff;transform:translateY(-2px);}
+@media(max-width:560px){
+  #teamModalBody{flex-direction:column;align-items:center;}
+  .modal-details{text-align:center;}
+  .id-qr-row{justify-content:center;}
+  .team-socials{justify-content:center;}
+}
+
+/* ---------- contact ---------- */
+#contact{background:var(--navy);color:#fff;position:relative;overflow:hidden;}
+#contact::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 700px 500px at 90% 0%, rgba(47,168,232,0.25), transparent 60%);
+  pointer-events:none;
+}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:70px;position:relative;}
+.contact-left h2{font-size:clamp(1.9rem,3vw,2.5rem);font-weight:700;line-height:1.15;}
+.contact-left .line-accent{color:var(--glow);}
+.contact-left p{margin-top:18px;color:rgba(255,255,255,.68);font-size:1.02rem;line-height:1.7;max-width:440px;}
+.contact-info{margin-top:38px;display:flex;flex-direction:column;gap:20px;}
+.contact-info-item{display:flex;align-items:center;gap:16px;}
+.ci-icon{
+  width:46px;height:46px;border-radius:13px;background:rgba(255,255,255,.08);display:flex;align-items:center;
+  justify-content:center;color:var(--glow);flex:none;
+}
+.ci-text strong{display:block;font-size:.94rem;}
+.ci-text span{font-size:.88rem;color:rgba(255,255,255,.6);}
+.contact-form{
+  background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:20px;padding:34px;
+  backdrop-filter:blur(6px);
+}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.contact-form input,.contact-form select,.contact-form textarea{
+  width:100%;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);border-radius:12px;
+  padding:13px 16px;color:#fff;font-family:'Inter',sans-serif;font-size:.92rem;margin-bottom:14px;
+}
+.contact-form select option {
+  background: #29435c;
+  color: #fff;
+}
+.contact-form ::placeholder{color:rgba(255,255,255,.4);}
+.contact-form textarea{resize:vertical;min-height:100px;}
+.contact-form input:focus,.contact-form select:focus,.contact-form textarea:focus{outline:none;border-color:var(--sky);background:rgba(255,255,255,.1);}
+.contact-form .btn-primary{width:100%;justify-content:center;margin-top:4px;}
+.form-note{font-size:.78rem;color:rgba(255,255,255,.45);margin-top:12px;text-align:center;}
+#formStatus {
+  transition: all 0.3s ease;
+}
+
+#formStatus.success {
+  color: #7dd3fc;
+}
+
+#formStatus.error {
+  color: #ff8a8a;
+}
+
+#submitBtn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* ---------- footer ---------- */
+footer{background:#081c33;color:rgba(255,255,255,.6);padding:44px 0;}
+.footer-inner{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px;}
+.footer-logo{display:flex;align-items:center;gap:10px;color:#fff;font-family:'Space Grotesk',sans-serif;font-weight:700;}
+.footer-links{display:flex;gap:26px;flex-wrap:wrap;}
+.footer-links a{font-size:.88rem;}
+.footer-links a:hover{color:#fff;}
+.footer-bottom{margin-top:28px;padding-top:22px;border-top:1px solid rgba(255,255,255,.08);font-size:.8rem;text-align:center;}
+
+/* ---------- reveal ---------- */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .7s ease, transform .7s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+
+/* ---------- responsive ---------- */
+@media(max-width:1080px){
+  .domain-grid{grid-template-columns:repeat(2,1fr);}
+  .team-grid{grid-template-columns:repeat(2,1fr);}
+  .edge-grid{grid-template-columns:repeat(2,1fr);}
+}
+@media(max-width:960px){
+  .hero-grid{grid-template-columns:1fr;}
+  .hero-visual{height:340px;order:-1;margin-top:0;}
+  .hero-left{margin-top:0;}
+  .about-grid{grid-template-columns:1fr;gap:44px;}
+  .contact-grid{grid-template-columns:1fr;gap:40px;}
+  .project-grid{grid-template-columns:1fr;}
+  nav{display:none;}
+  .hamburger{display:flex;}
+}
+@media(max-width:640px){
+  .container{padding:0 22px;}
+  .domain-grid{grid-template-columns:1fr 1fr;}
+  .team-grid{grid-template-columns:1fr 1fr;}
+  .edge-grid{grid-template-columns:1fr;}
+  .form-row{grid-template-columns:1fr;}
+  #home{padding:140px 0 70px;}
+  .section-pad{padding:80px 0;}
+}
+@media(prefers-reduced-motion:reduce){
+  *{transition:none !important;animation:none !important;}
+}
+
+.footer-logo{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  color:#fff;
+  font-family:'Space Grotesk',sans-serif;
+  font-weight:700;
+}
+
+.footer-logo img{
+  width:44px;
+  height:44px;
+  object-fit:contain;
+  display:block;
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ HEADER ═══ -->
+<header id="siteHeader">
+  <a href="#home" class="logo">
+    <span class="logo-mark">
+      <img src="assets/logo.png.ico" alt="Amite Invent-ory logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+      <i class="fas fa-microchip" style="display:none;"></i>
+    </span>
+    Amite <span class="dim">Invent-ory</span>
+  </a>
+  <nav>
+    <a href="#about" class="nav-link">About</a>
+    <a href="#domains" class="nav-link">Domains</a>
+  <a href="#logic-circuit" class="nav-link">Logic Lab</a>
+    <a href="#projects" class="nav-link">Projects</a>
+    <a href="#team" class="nav-link">Team</a>
+    <a href="#contact" class="nav-cta">Enquire Now</a>
+  </nav>
+  <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+</header>
+
+<div class="mobile-overlay" id="mobileOverlay"></div>
+<div class="mobile-nav" id="mobileNav">
+  <a href="#about" class="nav-link">About</a>
+  <a href="#domains" class="nav-link">Domains</a>
+  <a href="#projects" class="nav-link">Projects</a>
+  <a href="#team" class="nav-link">Team</a>
+  <a href="#contact" class="nav-cta" style="text-align:center;">Enquire Now</a>
+</div>
+
+<!-- ═══ HERO ═══ -->
+<section id="home">
+  <div class="container hero-grid">
+    <div class="hero-left">
+      <div class="hero-eyebrow"><i class="fas fa-bolt"></i> Engineering &amp; Technology Venture · Chennai</div>
+      <h1 class="hero-title">Turning Students<br><span class="line-accent">into Future-Ready Technologists.</span></h1>
+      <p class="hero-desc">Amite Invent-ory trains students on the current technologies shaping industry — embedded electronics, IoT, robotics, drones and smart energy — through hands-on building, not slides. Every session is run around real hardware, real circuits and real systems.</p>
+      <div class="hero-btns">
+        <a href="#contact" class="btn-primary"><i class="fas fa-envelope"></i> Start a conversation</a>
+      </div>
+    </div>
+    <div class="hero-visual reveal">
+      <canvas id="heroCanvas"></canvas>
+      <div class="hero-visual-badge"><i class="fas fa-cube"></i> Concept → Prototype → System</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ HARDWARE STRIP (extra board/circuit highlight, local effect only) ═══ -->
+<section id="hardware" class="section-pad" style="padding-top:70px;">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="section-tag">Boards on our bench</div>
+      <h2 class="section-title">Hardware we build with, every day</h2>
+      <p class="section-sub">Real boards and components we actually work with — from prototyping-stage microcontrollers to production-style SMT modules.</p>
+    </div>
+    <div class="domain-grid">
+
+  <div class="tilt-card reveal"><div class="tilt-inner">
+    <div class="domain-icon"><i class="fas fa-microchip"></i></div>
+    <h4>ESP32 / Arduino</h4>
+    <p>Versatile microcontroller platforms used for IoT, embedded systems, sensors, automation and rapid prototyping.</p>
+  </div></div>
+
+  <div class="tilt-card reveal"><div class="tilt-inner">
+    <div class="domain-icon"><i class="fas fa-server"></i></div>
+    <h4>STM32 / Raspberry Pi</h4>
+    <p>Powerful platforms for advanced embedded systems, computing, control applications and connected technology.</p>
+  </div></div>
+
+  <div class="tilt-card reveal"><div class="tilt-inner">
+    <div class="domain-icon"><i class="fas fa-layer-group"></i></div>
+    <h4>FPGA</h4>
+    <p>Programmable hardware platforms used for digital logic, high-speed processing, hardware acceleration and advanced system design.</p>
+  </div></div>
+
+  <div class="tilt-card reveal"><div class="tilt-inner">
+    <div class="domain-icon"><i class="fas fa-diagram-project"></i></div>
+    <h4>SMT / SMD Modules</h4>
+    <p>Surface-mount components and modules used on our production-style boards.</p>
+  </div></div>
+
+</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ INTERACTIVE LOGIC CIRCUIT ═══ -->
+<section id="logic-circuit" class="circuit-section section-pad">
+  <div class="container circuit-grid">
+
+    <div class="circuit-visual reveal">
+      <canvas id="circuitCanvas" aria-label="Interactive 3D digital logic circuit, straight-on view"></canvas>
+      <div class="circuit-visual-badge">
+        <i class="fas fa-microchip"></i>
+        Click A / B to control the circuit
+      </div>
+    </div>
+
+    <div class="circuit-copy reveal">
+      <div class="section-tag">Interactive Digital Logic</div>
+      <h2 class="section-title">Learn logic by <span style="color:var(--glow);">building it.</span></h2>
+      <p class="section-sub">Click the A and B switches and watch the signals travel through real AND, OR and NOT logic gates in 3D.</p>
+
+      <div class="logic-gate-info">
+        <div class="logic-gate-pill">
+          <strong>AND</strong>
+          <span>A · B</span>
+        </div>
+        <div class="logic-gate-pill">
+          <strong>OR</strong>
+          <span>A + B</span>
+        </div>
+        <div class="logic-gate-pill">
+          <strong>NOT</strong>
+          <span>¬A</span>
+        </div>
+      </div>
+
+      <p class="logic-note">
+        <i class="fas fa-circle-info"></i>
+        Toggle the input switches. Green signal lines indicate HIGH; dark lines indicate LOW.
+      </p>
+    </div>
+
+  </div>
+</section>
+
+<!-- Three.js must load BEFORE the interactive circuit initializes. -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+<style>
+.logic-gate-info{
+  margin-top:28px;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+}
+.logic-gate-pill{
+  padding:16px;
+  border:1px solid rgba(143,214,255,.20);
+  border-radius:14px;
+  background:rgba(255,255,255,.04);
+}
+.logic-gate-pill strong{
+  display:block;
+  color:#fff;
+  font-size:.95rem;
+  letter-spacing:.06em;
+}
+.logic-gate-pill span{
+  display:block;
+  color:rgba(255,255,255,.55);
+  font-size:.82rem;
+  margin-top:5px;
+}
+.logic-note{
+  margin-top:20px;
+  color:rgba(255,255,255,.55);
+  font-size:.82rem;
+  line-height:1.6;
+}
+.logic-note i{
+  color:var(--glow);
+  margin-right:7px;
+}
+@media(max-width:600px){
+  .logic-gate-info{grid-template-columns:1fr;}
+}
+</style>
+
+<script>
+/* =========================================================
+   INTERACTIVE 3D LOGIC CIRCUIT
+   A / B → AND / OR / NOT → LED OUTPUTS
+   ========================================================= */
+(function(){
+  const canvas = document.getElementById('circuitCanvas');
+  if(!canvas || !window.THREE) return;
+
+  const wrap = canvas.parentElement;
+  const scene = new THREE.Scene();
+
+  const camera = new THREE.PerspectiveCamera(
+    38,
+    Math.max(wrap.clientWidth,1) / Math.max(wrap.clientHeight,1),
+    0.1,
+    100
+  );
+  camera.position.set(0,8.8,5.8);
+  camera.lookAt(0,0,0);
+
+  const renderer = new THREE.WebGLRenderer({
+    canvas,
+    alpha:true,
+    antialias:true
+  });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1,2));
+  renderer.setSize(wrap.clientWidth,wrap.clientHeight);
+  renderer.shadowMap.enabled = true;
+
+  /* ---------- lighting ---------- */
+  scene.add(new THREE.HemisphereLight(0x9edfff,0x03101d,1.7));
+
+  const mainLight = new THREE.DirectionalLight(0xffffff,2.8);
+  mainLight.position.set(4,8,5);
+  mainLight.castShadow = true;
+  scene.add(mainLight);
+
+  const glowLight = new THREE.PointLight(0x2fa8e8,3,9);
+  glowLight.position.set(-2,3,1);
+  scene.add(glowLight);
+
+  /* ---------- board ---------- */
+  const boardGroup = new THREE.Group();
+  scene.add(boardGroup);
+
+  const board = new THREE.Mesh(
+    new THREE.BoxGeometry(6.6,0.22,4.4),
+    new THREE.MeshStandardMaterial({
+      color:0x061b2d,
+      metalness:.45,
+      roughness:.38
+    })
+  );
+  board.receiveShadow = true;
+  board.castShadow = true;
+  boardGroup.add(board);
+
+  /* ---------- PCB grid ---------- */
+  const gridMaterial = new THREE.LineBasicMaterial({
+    color:0x0c4b70,
+    transparent:true,
+    opacity:.38
+  });
+
+  for(let x=-3;x<=3;x+=.5){
+    const geometry = new THREE.BufferGeometry().setFromPoints([
+      new THREE.Vector3(x,.115,-2),
+      new THREE.Vector3(x,.115,2)
+    ]);
+    boardGroup.add(new THREE.Line(geometry,gridMaterial));
+  }
+
+  for(let z=-2;z<=2;z+=.5){
+    const geometry = new THREE.BufferGeometry().setFromPoints([
+      new THREE.Vector3(-3,.116,z),
+      new THREE.Vector3(3,.116,z)
+    ]);
+    boardGroup.add(new THREE.Line(geometry,gridMaterial));
+  }
+
+  /* ---------- labels ---------- */
+  function textSprite(text,color='#ffffff'){
+    const c = document.createElement('canvas');
+    c.width = 512;
+    c.height = 128;
+    const ctx = c.getContext('2d');
+    ctx.font = 'bold 72px Arial';
+    ctx.fillStyle = color;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(text,256,64);
+
+    const texture = new THREE.CanvasTexture(c);
+    texture.needsUpdate = true;
+
+    const sprite = new THREE.Sprite(
+      new THREE.SpriteMaterial({
+        map:texture,
+        transparent:true,
+        depthWrite:false
+      })
+    );
+    sprite.scale.set(1.15,.28,1);
+    return sprite;
+  }
+
+  /* ---------- gate material ---------- */
+  function gateMaterial(){
+    return new THREE.MeshStandardMaterial({
+      color:0x0b1723,
+      metalness:.75,
+      roughness:.25,
+      emissive:0x06253b,
+      emissiveIntensity:.6
+    });
+  }
+
+  /* ---------- AND gate ---------- */
+  function createAND(){
+    const shape = new THREE.Shape();
+    shape.moveTo(-.55,-.55);
+    shape.lineTo(0,-.55);
+    shape.absarc(0,0,.55,-Math.PI/2,Math.PI/2,false);
+    shape.lineTo(-.55,.55);
+    shape.closePath();
+
+    const geometry = new THREE.ExtrudeGeometry(shape,{
+      depth:.18,
+      bevelEnabled:true,
+      bevelSize:.045,
+      bevelThickness:.035,
+      bevelSegments:3
+    });
+    const mesh = new THREE.Mesh(geometry,gateMaterial());
+    mesh.rotation.x = -Math.PI/2;
+    mesh.castShadow = true;
+    return mesh;
+  }
+
+  /* ---------- OR gate (proper OR-gate silhouette) ---------- */
+  function createOR(){
+    const shape = new THREE.Shape();
+
+    // Standard OR-gate outline: concave input side, two curved sides,
+    // and a pointed output nose.
+    shape.moveTo(-.68,.55);
+    shape.bezierCurveTo(-.32,.46,.02,.22,.62,0);
+    shape.bezierCurveTo(.02,-.22,-.32,-.46,-.68,-.55);
+    shape.bezierCurveTo(-.42,-.18,-.42,.18,-.68,.55);
+    shape.closePath();
+
+    const geometry = new THREE.ExtrudeGeometry(shape,{
+      depth:.18,
+      bevelEnabled:true,
+      bevelSize:.045,
+      bevelThickness:.035,
+      bevelSegments:3,
+      curveSegments:12
+    });
+    const mesh = new THREE.Mesh(geometry,gateMaterial());
+    mesh.rotation.x = -Math.PI/2;
+    mesh.castShadow = true;
+    return mesh;
+  }
+
+  /* ---------- NOT gate ---------- */
+  function createNOT(){
+    const shape = new THREE.Shape();
+    shape.moveTo(-.65,-.55);
+    shape.lineTo(.6,0);
+    shape.lineTo(-.65,.55);
+    shape.closePath();
+
+    const geometry = new THREE.ExtrudeGeometry(shape,{
+      depth:.18,
+      bevelEnabled:true,
+      bevelSize:.045,
+      bevelThickness:.035,
+      bevelSegments:3
+    });
+    const mesh = new THREE.Mesh(geometry,gateMaterial());
+    mesh.rotation.x = -Math.PI/2;
+    mesh.castShadow = true;
+    return mesh;
+  }
+
+  const andGate = createAND();
+  andGate.position.set(.15,.22,-.9);
+  boardGroup.add(andGate);
+
+  const orGate = createOR();
+  orGate.position.set(.15,.22,.15);
+  boardGroup.add(orGate);
+
+  const notGate = createNOT();
+  notGate.position.set(.15,.22,1.25);
+  boardGroup.add(notGate);
+
+  const andText = textSprite('AND','#75d5ff');
+  andText.position.set(.15,.48,-1.58);
+  boardGroup.add(andText);
+
+  const orText = textSprite('OR','#75d5ff');
+  orText.position.set(.15,.48,-.55);
+  boardGroup.add(orText);
+
+  const notText = textSprite('NOT','#75d5ff');
+  notText.position.set(.15,.48,.75);
+  boardGroup.add(notText);
+
+  /* ---------- switches ---------- */
+  const switches = {};
+
+  function createSwitch(name,x,z){
+    const group = new THREE.Group();
+    group.position.set(x,.24,z);
+
+    const base = new THREE.Mesh(
+      new THREE.BoxGeometry(.55,.16,.48),
+      new THREE.MeshStandardMaterial({
+        color:0x101c27,
+        metalness:.8,
+        roughness:.25
+      })
+    );
+    group.add(base);
+
+    const lever = new THREE.Mesh(
+      new THREE.CylinderGeometry(.075,.075,.38,18),
+      new THREE.MeshStandardMaterial({
+        color:0xd9f3ff,
+        metalness:.9,
+        roughness:.18
+      })
+    );
+    lever.position.y = .22;
+    lever.rotation.z = .45;
+    group.add(lever);
+
+    const label = textSprite(name,'#ffffff');
+    label.position.set(0,.52,0);
+    label.scale.set(.65,.2,1);
+    group.add(label);
+
+    group.userData = {
+      isSwitch:true,
+      name,
+      state:false,
+      lever
+    };
+
+    boardGroup.add(group);
+    switches[name] = group;
+  }
+
+  createSwitch('A',-2.25,-.9);
+  createSwitch('B',-2.25,.25);
+
+  /* ---------- LEDs ---------- */
+  const leds = {};
+
+  function createLED(name,x,z,color){
+    const group = new THREE.Group();
+    group.position.set(x,.25,z);
+
+    const body = new THREE.Mesh(
+      new THREE.SphereGeometry(.16,24,16),
+      new THREE.MeshStandardMaterial({
+        color:0x202a30,
+        emissive:color,
+        emissiveIntensity:.05
+      })
+    );
+    group.add(body);
+
+    const label = textSprite(name,'#ffffff');
+    label.position.y = .4;
+    label.scale.set(.9,.2,1);
+    group.add(label);
+
+    leds[name] = {group,body,color};
+    boardGroup.add(group);
+  }
+
+  createLED('AND OUT',1.65,-.9,0x35e879);
+  createLED('OR OUT',1.65,.15,0xffd34d);
+  createLED('NOT OUT',1.65,1.25,0xff4b55);
+
+  /* ---------- wires ---------- */
+  const wires = [];
+
+  function createWire(points){
+    const group = new THREE.Group();
+    const segments = [];
+
+    for(let i=0;i<points.length-1;i++){
+      const a = points[i];
+      const b = points[i+1];
+      const dx = b.x-a.x;
+      const dz = b.z-a.z;
+      const length = Math.sqrt(dx*dx+dz*dz);
+
+      const segment = new THREE.Mesh(
+        new THREE.BoxGeometry(length,.035,.035),
+        new THREE.MeshStandardMaterial({
+          color:0x174866,
+          emissive:0x061c2c,
+          emissiveIntensity:.2
+        })
+      );
+
+      segment.position.set(
+        (a.x+b.x)/2,
+        .18,
+        (a.z+b.z)/2
+      );
+      segment.rotation.y = Math.atan2(dz,dx);
+      group.add(segment);
+      segments.push(segment);
+    }
+
+    boardGroup.add(group);
+    const wire = {group,segments,active:false};
+    wires.push(wire);
+    return wire;
+  }
+
+  const A_AND = createWire([
+    {x:-1.97,z:-.9},
+    {x:-1.25,z:-.9},
+    {x:-1.25,z:-1.08},
+    {x:-.42,z:-1.08}
+  ]);
+
+  const B_AND = createWire([
+    {x:-1.97,z:.25},
+    {x:-1.05,z:.25},
+    {x:-1.05,z:-.72},
+    {x:-.42,z:-.72}
+  ]);
+
+  const A_OR = createWire([
+    {x:-1.97,z:-.9},
+    {x:-1.65,z:-.9},
+    {x:-1.65,z:.02},
+    {x:-.5,z:.02}
+  ]);
+
+  const B_OR = createWire([
+    {x:-1.97,z:.25},
+    {x:-1.45,z:.25},
+    {x:-1.45,z:.4},
+    {x:-.5,z:.4}
+  ]);
+
+  const A_NOT = createWire([
+    {x:-1.97,z:-.9},
+    {x:-1.72,z:-.9},
+    {x:-1.72,z:1.25},
+    {x:-.5,z:1.25}
+  ]);
+
+  const AND_OUT = createWire([
+    {x:.75,z:-.9},
+    {x:1.65,z:-.9}
+  ]);
+
+  const OR_OUT = createWire([
+    {x:.75,z:.15},
+    {x:1.65,z:.15}
+  ]);
+
+  const NOT_OUT = createWire([
+    {x:.75,z:1.25},
+    {x:1.65,z:1.25}
+  ]);
+
+  /* ---------- signal state ---------- */
+  function setWire(wire,active){
+    wire.active = active;
+    wire.segments.forEach(segment=>{
+      segment.material.color.setHex(active ? 0x35e879 : 0x174866);
+      segment.material.emissive.setHex(active ? 0x35e879 : 0x061c2c);
+      segment.material.emissiveIntensity = active ? 2.5 : .2;
+    });
+  }
+
+  function setLED(name,active){
+    const led = leds[name];
+    led.body.material.color.setHex(active ? led.color : 0x202a30);
+    led.body.material.emissiveIntensity = active ? 4 : .05;
+  }
+
+  function updateCircuit(){
+    const A = switches.A.userData.state;
+    const B = switches.B.userData.state;
+
+    const AND = A && B;
+    const OR = A || B;
+    const NOT = !A;
+
+    setWire(A_AND,A);
+    setWire(B_AND,B);
+    setWire(A_OR,A);
+    setWire(B_OR,B);
+    setWire(A_NOT,A);
+    setWire(AND_OUT,AND);
+    setWire(OR_OUT,OR);
+    setWire(NOT_OUT,NOT);
+
+    setLED('AND OUT',AND);
+    setLED('OR OUT',OR);
+    setLED('NOT OUT',NOT);
+
+    switches.A.userData.lever.rotation.z = A ? -.45 : .45;
+    switches.B.userData.lever.rotation.z = B ? -.45 : .45;
+  }
+
+  /* ---------- interaction ---------- */
+  const raycaster = new THREE.Raycaster();
+  const mouse = new THREE.Vector2();
+
+  function updatePointer(event){
+    const rect = canvas.getBoundingClientRect();
+    mouse.x = ((event.clientX-rect.left)/rect.width)*2-1;
+    mouse.y = -((event.clientY-rect.top)/rect.height)*2+1;
+  }
+
+  canvas.addEventListener('pointerdown',event=>{
+    updatePointer(event);
+    raycaster.setFromCamera(mouse,camera);
+
+    const hits = raycaster.intersectObjects([switches.A,switches.B],true);
+    if(!hits.length) return;
+
+    let target = hits[0].object;
+    while(target && !target.userData.isSwitch) target = target.parent;
+    if(!target) return;
+
+    target.userData.state = !target.userData.state;
+    updateCircuit();
+  });
+
+  canvas.addEventListener('pointermove',event=>{
+    updatePointer(event);
+    raycaster.setFromCamera(mouse,camera);
+    const hits = raycaster.intersectObjects([switches.A,switches.B],true);
+    canvas.style.cursor = hits.length ? 'pointer' : 'default';
+  });
+
+  canvas.addEventListener('pointerleave',()=>{
+    canvas.style.cursor = 'default';
+  });
+
+  updateCircuit();
+
+  /* ---------- stable board presentation ---------- */
+/* FLAT FRONT PRESENTATION: board faces the viewer with zero sideways yaw. */
+  const clock = new THREE.Clock();
+
+  function animate(){
+    requestAnimationFrame(animate);
+
+    // Keep the circuit locked in one clean presentation position.
+    // The switches remain interactive, but the whole board no longer floats/rotates.
+    boardGroup.position.x = 0;
+    boardGroup.position.z = 0;
+    boardGroup.rotation.y = 0;
+    boardGroup.rotation.x = -.035;
+
+    Object.values(leds).forEach(led=>{
+      if(led.body.material.emissiveIntensity > 1){
+        led.body.material.emissiveIntensity = 3.5;
+      }
+    });
+
+    renderer.render(scene,camera);
+  }
+
+  animate();
+
+  /* ---------- responsive ---------- */
+  function resize(){
+    const w = Math.max(wrap.clientWidth,1);
+    const h = Math.max(wrap.clientHeight,1);
+    camera.aspect = w/h;
+    camera.updateProjectionMatrix();
+    renderer.setSize(w,h);
+  }
+
+  window.addEventListener('resize',resize);
+  resize();
+})();
+</script>
+
+<!-- ═══ ABOUT ═══ -->
+<section id="about" class="section-pad">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-copy reveal">
+        <div class="section-tag">The problem we're solving</div>
+        <h2 class="section-title" style="margin-bottom:22px;">The gap between what students learn and what engineers actually build</h2>
+        <p>Students understand theory, but rarely get to work with real hardware — building complete systems, troubleshooting problems, testing prototypes, and living through a real engineering workflow. Colleges need better ways to offer that practical, technology-oriented exposure.</p>
+        <p><strong>Amite Invent-ory operates in that gap.</strong> We run a practical engineering cycle that turns a concept into a demonstrated, working system — and we bring that same cycle into workshops and technical programs for institutions.</p>
+        <div class="philosophy-box">
+          <p><strong>Build. Test. Improve. Demonstrate. Apply.</strong><br>That's the whole philosophy — engineering treated as a system to be proven, not just a project to be submitted.</p>
+        </div>
+      </div>
+      <div class="cycle-wrap reveal">
+        <div class="section-tag">Our approach</div>
+        <h3 style="font-size:1.4rem;color:var(--navy);margin-bottom:8px;">A practical engineering cycle</h3>
+        <p style="color:var(--slate-light);font-size:.92rem;margin-bottom:14px;">Every project moves through the same six stages, end to end.</p>
+        <div class="cycle-list">
+          <div class="cycle-item"><div class="cycle-num">1</div><div class="cycle-text"><h4>Concept</h4><p>An idea is shaped into a real engineering brief.</p></div></div>
+          <div class="cycle-item"><div class="cycle-num">2</div><div class="cycle-text"><h4>Experiment</h4><p>Circuits, code and components are tried and validated.</p></div></div>
+          <div class="cycle-item"><div class="cycle-num">3</div><div class="cycle-text"><h4>Project</h4><p>The concept becomes a working, integrated build.</p></div></div>
+          <div class="cycle-item"><div class="cycle-num">4</div><div class="cycle-text"><h4>Testing</h4><p>The system is pushed until problems surface.</p></div></div>
+          <div class="cycle-item"><div class="cycle-num">5</div><div class="cycle-text"><h4>Improvement</h4><p>Problems found in testing get engineered out.</p></div></div>
+          <div class="cycle-item"><div class="cycle-num">6</div><div class="cycle-text"><h4>Application</h4><p>The final system is demonstrated in a real context.</p></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ DOMAINS ═══ -->
+<section id="domains" class="section-pad">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="section-tag">What we work across</div>
+      <h2 class="section-title">A multidisciplinary engineering ecosystem</h2>
+      <p class="section-sub">Different engineering disciplines coming together inside the same project — electrical, embedded, connected, software, design and intelligent systems.</p>
+    </div>
+
+    <div class="domain-grid" id="domainGrid">
+
+      <div class="tilt-card reveal"><div class="tilt-inner">
+        <div class="domain-icon"><i class="fas fa-bolt"></i></div>
+        <h4>Electrical &amp; Electronics</h4>
+        <p>Circuits, power systems and hardware development from the ground up.</p>
+      </div></div>
+
+      <div class="tilt-card reveal"><div class="tilt-inner">
+        <div class="domain-icon"><i class="fas fa-microchip"></i></div>
+        <h4>Embedded Systems</h4>
+        <p>Microcontrollers, firmware, sensors and hardware-software integration.</p>
+      </div></div>
+
+      <div class="tilt-card reveal"><div class="tilt-inner">
+        <div class="domain-icon"><i class="fas fa-wifi"></i></div>
+        <h4>IoT</h4>
+        <p>Connected devices, monitoring dashboards and smart, networked systems.</p>
+      </div></div>
+
+      <div class="tilt-card reveal"><div class="tilt-inner">
+        <div class="domain-icon"><i class="fas fa-robot"></i></div>
+        <h4>Robotics</h4>
+        <p>Robotic and autonomous systems built around real-world control loops.</p>
+      </div></div>
+
+      <div class="tilt-card reveal"><div class="tilt-inner">
+        <div class="domain-icon"><i class="fas fa-gears"></i></div>
+        <h4>Automation</h4>
+        <p>Industrial and smart automation systems for repeatable processes.</p>
+      </div></div>
+
+      <div class="tilt-card reveal"><div class="tilt-inner">
+        <div class="domain-icon"><i class="fas fa-plug-circle-bolt"></i></div>
+        <h4>Smart Energy</h4>
+        <p>Energy monitoring, smart metering and energy-aware systems.</p>
+      </div></div>
+
+      <div class="tilt-card reveal"><div class="tilt-inner">
+        <div class="domain-icon"><i class="fas fa-fan"></i></div>
+        <h4>Motor &amp; Control Systems</h4>
+        <p>Motor control, BLDC drive systems and precision control applications.</p>
+      </div></div>
+
+      <div class="tilt-card reveal"><div class="tilt-inner">
+        <div class="domain-icon"><i class="fas fa-helicopter"></i></div>
+        <h4>Drone Technology</h4>
+        <p>Airframes, propulsion and flight electronics for applied drone systems.</p>
+      </div></div>
+
+      <div class="tilt-card reveal"><div class="tilt-inner">
+        <div class="domain-icon"><i class="fas fa-code"></i></div>
+        <h4>Web &amp; App Development</h4>
+        <p>Modern websites, web applications and mobile solutions built for real-world use.</p>
+      </div></div>
+
+      <div class="tilt-card reveal"><div class="tilt-inner">
+        <div class="domain-icon"><i class="fas fa-cube"></i></div>
+        <h4>3D Design</h4>
+        <p>3D modeling, product visualization and digital designs for engineering and creative applications.</p>
+      </div></div>
+
+      <div class="tilt-card reveal"><div class="tilt-inner">
+        <div class="domain-icon"><i class="fas fa-eye"></i></div>
+        <h4>Computer Vision</h4>
+        <p>Image processing, object detection and vision-based intelligent systems for real-world applications.</p>
+      </div></div>
+
+      <div class="tilt-card reveal"><div class="tilt-inner">
+        <div class="domain-icon"><i class="fas fa-diagram-project"></i></div>
+        <h4>PCB Design</h4>
+        <p>Schematic capture, PCB layout and hardware design for reliable electronic systems and prototypes.</p>
+      </div></div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PROJECTS ═══ -->
+<section id="projects" class="section-pad">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="section-tag">Build. Test. Demonstrate.</div>
+      <h2 class="section-title">Engineering projects in progress</h2>
+      <p class="section-sub">A working portfolio of projects across drone systems, power electronics and chip-level design. Only verified project information is published here.</p>
+    </div>
+    <div class="project-grid" id="projectGrid">
+
+      <div class="project-card reveal">
+        <div class="pc-glow"></div>
+        <div class="pc-top"><div class="pc-icon"><i class="fas fa-helicopter"></i></div><div class="pc-index">01</div></div>
+        <h3>Agri Drone</h3>
+        <p>An agriculture-focused drone platform built for field spraying and crop monitoring — engineered around payload stability, flight endurance and coverage over open farmland.</p>
+        <div class="pc-tags"><span>Flight Controller</span><span>Spraying System</span><span>GPS Navigation</span></div>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="pc-glow"></div>
+        <div class="pc-top"><div class="pc-icon"><i class="fas fa-fan"></i></div><div class="pc-index">02</div></div>
+        <h3>BLDC Drone ESC &amp; Motor</h3>
+        <p>A custom electronic speed controller paired with a BLDC motor system, built and tuned specifically for drone propulsion — covering driver design, commutation and thrust testing.</p>
+        <div class="pc-tags"><span>ESC Design</span><span>BLDC Motor</span><span>Motor Control</span></div>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="pc-glow"></div>
+        <div class="pc-top"><div class="pc-icon"><i class="fas fa-microchip"></i></div><div class="pc-index">03</div></div>
+        <h3>Chip Design</h3>
+        <p>An IC-level engineering project exploring chip design workflows — from logic and schematic design through to simulation and layout-level validation.</p>
+        <div class="pc-tags"><span>IC Design</span><span>Schematic &amp; Layout</span><span>Simulation</span></div>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="pc-glow"></div>
+        <div class="pc-top"><div class="pc-icon"><i class="fas fa-gauge-high"></i></div><div class="pc-index">04</div></div>
+        <h3>Smart Meter</h3>
+        <p>An IoT-connected smart energy meter that tracks real-time consumption and pushes readings to a live dashboard — built for accurate, remote energy monitoring.</p>
+        <div class="pc-tags"><span>Energy Monitoring</span><span>IoT Dashboard</span><span>Embedded Sensing</span></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══ DIFFERENTIATORS ═══ -->
+<section id="edge" class="section-pad">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="section-tag">What makes us different</div>
+      <h2 class="section-title">Practical first, industry-oriented always</h2>
+    </div>
+    <div class="edge-grid">
+      <div class="edge-card reveal"><div class="num">01</div><h4>Practical First</h4><p>The focus is on building and testing rather than only explaining concepts.</p></div>
+      <div class="edge-card reveal"><div class="num">02</div><h4>Multidisciplinary</h4><p>Electrical, electronics, embedded, IoT, robotics and automation converge in the same project.</p></div>
+      <div class="edge-card reveal"><div class="num">03</div><h4>Industry-Oriented</h4><p>We connect technical education with practical engineering applications.</p></div>
+      <div class="edge-card reveal"><div class="num">04</div><h4>Build. Test. Improve.</h4><p>Every project is treated as an engineering system, not just a demonstration.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ TEAM ═══ -->
+<section id="team" class="section-pad">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="section-tag">The people behind the work</div>
+      <h2 class="section-title">Meet the team</h2>
+      <p class="section-sub">A multidisciplinary engineering team building practical solutions across electrical, electronics and emerging technologies. Tap a member to see their full profile.</p>
+    </div>
+    <div class="team-grid" id="teamGrid"></div>
+  </div>
+</section>
+
+<!-- team modal (filled by JS) -->
+<div class="team-modal-overlay" id="teamModalOverlay">
+  <div class="team-modal" id="teamModal" role="dialog" aria-modal="true">
+    <button class="team-modal-close" id="teamModalClose" aria-label="Close"><i class="fas fa-xmark"></i></button>
+    <div id="teamModalBody"></div>
+  </div>
+</div>
+
+<!-- ═══ CONTACT ═══ -->
+<section id="contact" class="section-pad">
+  <div class="container contact-grid">
+    <div class="contact-left reveal">
+      <div class="section-tag" style="color:var(--glow);">Start a conversation</div>
+      <h2>Let's build<br><span class="line-accent">something together.</span></h2>
+      <p>Have a project idea, need a technical workshop, or want to discuss a custom engineering solution? Tell us what you want to build.</p>
+      <div class="contact-info">
+        <div class="contact-info-item"><div class="ci-icon"><i class="fas fa-envelope"></i></div>
+          <div class="ci-text"><strong>Email</strong><span>amiteinvertory7@gmail.com</span></div></div>
+        <div class="contact-info-item"><div class="ci-icon"><i class="fas fa-phone"></i></div>
+          <div class="ci-text"><strong>Phone / WhatsApp</strong><span>+91 98845 41498</span></div></div>
+        <div class="contact-info-item"><div class="ci-icon"><i class="fas fa-location-dot"></i></div>
+          <div class="ci-text"><strong>Location</strong><span>Chennai, Tamil Nadu, India</span></div></div>
+      </div>
+    </div>
+    <div class="contact-form reveal">
+      <form id="enquiryForm">
+
+  <div class="form-row">
+    <input
+      type="text"
+      placeholder="Your name"
+      id="f-name"
+      name="name"
+      required
+      autocomplete="name"
+      pattern="[A-Za-z][A-Za-z .'-]{1,49}"
+    >
+
+    <input
+      type="tel"
+      placeholder="Phone number"
+      id="f-phone"
+      name="phone"
+      required
+      autocomplete="tel"
+      inputmode="numeric"
+      maxlength="10"
+      pattern="[6-9][0-9]{9}"
+    >
+  </div>
+
+  <input
+    type="email"
+    placeholder="Email address"
+    id="f-email"
+    name="email"
+    required
+    autocomplete="email"
+  >
+
+  <select id="f-topic" name="topic" required>
+    <option value="Project Enquiry">Project enquiry</option>
+    <option value="Workshop / College Program">Workshop / college program</option>
+    <option value="Project Guidance">Project guidance</option>
+    <option value="General Enquiry">General enquiry</option>
+  </select>
+
+  <textarea
+    placeholder="Tell us what you want to build..."
+    id="f-msg"
+    name="message"
+    required
+  ></textarea>
+
+  <button type="submit" class="btn-primary" id="submitBtn">
+    <i class="fas fa-paper-plane"></i>
+    <span>Send enquiry</span>
+  </button>
+
+  <p class="form-note" id="formStatus">
+    We'll get back to you as soon as possible.
+  </p>
+
+</form>
+
+</div>
+</div>
+</section>
+
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="container footer-inner">
+    <div class="footer-logo">
+  <img src="assets/logo.png.ico" alt="Amite Invent-ory logo">
+  <span>Amite Invent-ory</span>
+</div>
+    <div class="footer-links">
+      <a href="#home">Home</a><a href="#about">About</a><a href="#projects">Projects</a>
+      <a href="#logic-circuit">Logic Lab</a><a href="#team">Team</a><a href="#contact">Contact</a>
+    </div>
+  </div>
+  <div class="container footer-bottom">© 2026 Amite Invent-ory. Engineering ideas into real-world solutions.</div>
+</footer>
+
+<script>
+/* ==================================================================
+   TEAM DATA
+   Put each member's photo at assets/team/<file>. If the file is
+   missing, the initials avatar is shown automatically as a fallback.
+   Edit bio/socials freely — this is the single source of truth for
+   both the grid cards and the popup modal.
+   ================================================================== */
+const TEAM = [
+  {
+    id: 'mukesh',
+    name: 'Mukesh Kumar',
+    initials: '',
+    role: 'Chief Instructor',
+    dept: 'B.E. EEE',
+    photo: 'assets/team/mukesh.png',
+    bio: 'Leads technical instruction and guides students through practical engineering concepts, projects, and hands-on learning.',
+    linkedin: 'https://linkedin.com/in/mukesh-kumar-s-p-877447283',
+    instagram: 'https://www.instagram.com/_mukesh04_12?igsh=MWRiN2o5bnIzZXZsZQ=='
+  },
+
+  {
+    id: 'elangovan',
+    name: 'Elangovan S',
+    initials: '',
+    role: 'Chief Instructor',
+    dept: 'B.E. EEE',
+    photo: 'assets/team/elangovan.png',
+    bio: 'Guides technical learning and supports students in transforming engineering concepts into practical working projects.',
+    linkedin: 'https://linkedin.com/in/elangovan-suthakar-442a54257',
+    instagram: 'https://www.instagram.com/elangovan_666?igsh=MXh6YzVkejZiN21iMQ=='
+  },
+
+  {
+    id: 'vishnu',
+    name: 'Vishnu C',
+    initials: '',
+    role: 'Chief Developer',
+    dept: 'B.E. EEE',
+    photo: 'assets/team/vishnu.png',
+    bio: 'Leads software development and digital product engineering, building and managing the team’s websites, platforms, and technology solutions.',
+    linkedin: 'https://www.linkedin.com/in/vishnu0510',
+    instagram: 'https://www.instagram.com/vishnu_sr6913/profilecard/?igsh=bmJsbnJ1ZThpbTkz'
+  },
+
+  {
+    id: 'shajith',
+    name: 'Mohamed Shajith',
+    initials: '',
+    role: 'Chief Advisor',
+    dept: 'B.E. EEE',
+    photo: 'assets/team/shajith.png',
+    bio: 'Provides strategic guidance and supports the team with decision-making, planning, and direction across projects.',
+    linkedin: '',
+    instagram: ''
+  },
+
+  {
+    id: 'aadith',
+    name: 'Aadith Dilipan',
+    initials: '',
+    role: 'Chief Technologist',
+    dept: 'B.E. EEE',
+    photo: 'assets/team/aadhi.png',
+    bio: 'Drives the technical direction of projects and works across emerging technologies, engineering systems, and practical innovations.',
+    linkedin: 'https://linkedin.com/in/aadith-dilipan-09b792240',
+    instagram: 'https://www.instagram.com/aadhi77789?igsh=MWY3dnRvYWpwcnM3NA=='
+  },
+
+  {
+    id: 'surendhar',
+    name: 'Surendhar Kumar',
+    initials: '',
+    role: 'Chief Designer',
+    dept: 'B.E. EEE',
+    photo: 'assets/team/surendhar.png',
+    bio: 'Leads creative and visual design while contributing to product development and the team’s digital presence.',
+    linkedin: 'https://linkedin.com/in/surendhar-kumar-838b252a2',
+    instagram: 'https://www.instagram.com/surendharkumar003?igsh=MXV2d2FhN21pa21uNA=='
+  },
+
+  {
+    id: 'mowli',
+    name: 'Mowli Sankar',
+    initials: '',
+    role: 'Chief Researcher',
+    dept: 'B.E. EEE',
+    photo: 'assets/team/mowli.png',
+    bio: 'Leads research and exploration of new technologies while contributing to embedded systems, sensors, and innovative engineering solutions.',
+    linkedin: 'https://linkedin.com/in/mowlisankar-thirunavukkarasu-940b47256',
+    instagram: 'https://www.instagram.com/mowli.18?igsh=MTZhMHVydHFrand2aA=='
+  },
+
+  {
+    id: 'saipranith',
+    name: 'Sai Pranith',
+    initials: '',
+    role: 'Chief Coordinator',
+    dept: 'B.E. EEE',
+    photo: 'assets/team/sai.png',
+    bio: 'Coordinates team activities, project execution, and collaboration to keep engineering initiatives organized and moving forward.',
+    linkedin: 'https://linkedin.com/in/sai-pranith-t-r-7869a62a1',
+    instagram: 'https://www.instagram.com/pra_nith_21?igsh=MTRsbmZhOGZjN3BoNQ=='
+  },
+
+  {
+    id: 'tarun',
+    name: 'Tarun',
+    initials: '',
+    role: 'Chief Innovator',
+    dept: 'B.E. EEE',
+    photo: 'assets/team/tarun.png',
+    bio: 'Drives new ideas and explores innovative approaches to turn concepts into practical products, experiences, and solutions.',
+    linkedin: '',
+    instagram: ''
+  }
+];
+function socialLinksHTML(m){
+  let html = '';
+  if(m.linkedin) html += `<a href="${m.linkedin}" target="_blank" rel="noopener" aria-label="${m.name} on LinkedIn"><i class="fab fa-linkedin-in"></i></a>`;
+  if(m.instagram) html += `<a href="${m.instagram}" target="_blank" rel="noopener" aria-label="${m.name} on Instagram"><i class="fab fa-instagram"></i></a>`;
+  return html;
+}
+
+function avatarHTML(m){
+  return `<span class="initials">${m.initials}</span><img src="${m.photo}" alt="${m.name}" loading="lazy" onerror="this.style.display='none';">`;
+}
+
+/* The URL a scanned QR code opens: this page, with ?member=<id> appended.
+   window.location.origin/pathname is read at render time, so this keeps
+   working correctly once the site is hosted at its real domain. */
+function memberProfileURL(m){
+  return `${window.location.origin}${window.location.pathname}?member=${encodeURIComponent(m.id)}`;
+}
+
+/* build the grid: minimal photo + name cards. Full details, including
+   the QR code, are revealed in the modal when a card is clicked. */
+const teamGrid = document.getElementById('teamGrid');
+TEAM.forEach((m) => {
+  const card = document.createElement('button');
+  card.type = 'button';
+  card.className = 'team-card reveal';
+  card.setAttribute('aria-label', `View profile for ${m.name}`);
+  card.innerHTML = `
+    <div class="card-photo">${avatarHTML(m)}</div>
+    <div class="card-name">
+      <h3>${m.name}</h3>
+      <span class="view-hint">Tap for details</span>
+    </div>
+  `;
+  card.addEventListener('click', () => openTeamModal(m));
+  teamGrid.appendChild(card);
+});
+
+/* modal open/close */
+const teamModalOverlay = document.getElementById('teamModalOverlay');
+const teamModalBody = document.getElementById('teamModalBody');
+const teamModalClose = document.getElementById('teamModalClose');
+
+function openTeamModal(m){
+  teamModalBody.innerHTML = `
+    <div class="modal-photo">${avatarHTML(m)}</div>
+    <div class="modal-details">
+      <h3>${m.name}</h3>
+      <div class="role">${m.role}</div>
+      <div class="dept">${m.dept}</div>
+      <p class="bio">${m.bio}</p>
+      <div class="id-qr-row">
+        <div class="id-qr-box" id="qr-${m.id}"></div>
+        <div class="id-scan-text"><strong>Scan for profile</strong>Opens this member's details on our site</div>
+      </div>
+      <div class="team-socials">${socialLinksHTML(m)}</div>
+    </div>
+  `;
+  teamModalOverlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+
+  /* render the same profile QR code, now inside the details panel */
+  requestAnimationFrame(() => {
+    const qrEl = document.getElementById(`qr-${m.id}`);
+    if(qrEl && window.QRCode){
+      new QRCode(qrEl, {
+        text: memberProfileURL(m),
+        width: 96, height: 96,
+        colorDark: '#0a2540', colorLight: '#ffffff',
+        correctLevel: QRCode.CorrectLevel.M
+      });
+    }
+  });
+}
+function closeTeamModal(){
+  teamModalOverlay.classList.remove('open');
+  document.body.style.overflow = '';
+}
+teamModalClose.addEventListener('click', closeTeamModal);
+teamModalOverlay.addEventListener('click', (e) => { if(e.target === teamModalOverlay) closeTeamModal(); });
+document.addEventListener('keydown', (e) => { if(e.key === 'Escape') closeTeamModal(); });
+
+/* if this page was opened from a scanned QR code (?member=<id>), jump
+   straight to that person's profile popup */
+(function openProfileFromQuery(){
+  const params = new URLSearchParams(window.location.search);
+  const memberId = params.get('member');
+  if(!memberId) return;
+  const match = TEAM.find(m => m.id === memberId);
+  if(!match) return;
+  document.getElementById('team').scrollIntoView({behavior:'instant', block:'start'});
+  setTimeout(() => openTeamModal(match), 300);
+})();
+
+/* ---------- header scroll state ---------- */
+const header = document.getElementById('siteHeader');
+window.addEventListener('scroll', () => {
+  header.classList.toggle('scrolled', window.scrollY > 30);
+});
+
+/* ---------- mobile menu ---------- */
+const hamburger = document.getElementById('hamburger');
+const mobileNav = document.getElementById('mobileNav');
+const overlay = document.getElementById('mobileOverlay');
+function toggleMenu(){ mobileNav.classList.toggle('open'); overlay.classList.toggle('open'); }
+hamburger.addEventListener('click', toggleMenu);
+overlay.addEventListener('click', toggleMenu);
+document.querySelectorAll('.mobile-nav a').forEach(a => a.addEventListener('click', toggleMenu));
+
+/* ---------- reveal on scroll ---------- */
+const revealEls = document.querySelectorAll('.reveal');
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target); } });
+}, {threshold:0.12});
+revealEls.forEach(el => io.observe(el));
+
+/* ---------- 3D tilt for cards ---------- */
+function applyTilt(selector, strength=10){
+  document.querySelectorAll(selector).forEach(card => {
+    card.style.transformStyle = 'preserve-3d';
+    card.addEventListener('mousemove', (e) => {
+      const r = card.getBoundingClientRect();
+      const x = (e.clientX - r.left)/r.width - 0.5;
+      const y = (e.clientY - r.top)/r.height - 0.5;
+      card.style.transform = `perspective(900px) rotateY(${x*strength}deg) rotateX(${-y*strength}deg) translateZ(4px)`;
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = 'perspective(900px) rotateY(0deg) rotateX(0deg) translateZ(0)';
+    });
+  });
+}
+applyTilt('.tilt-card', 9);
+applyTilt('.project-card', 7);
+applyTilt('.team-card', 8);
+
+/* ---------- contact form -> WhatsApp ---------- */
+
+const enquiryForm = document.getElementById('enquiryForm');
+const submitBtn = document.getElementById('submitBtn');
+const formStatus = document.getElementById('formStatus');
+
+enquiryForm.addEventListener('submit', function(e) {
+  e.preventDefault();
+
+  const nameInput = document.getElementById('f-name');
+  const phoneInput = document.getElementById('f-phone');
+  const emailInput = document.getElementById('f-email');
+
+  const name = nameInput.value.trim();
+  const phone = phoneInput.value.trim();
+  const email = emailInput.value.trim();
+  const topic = document.getElementById('f-topic').value;
+  const message = document.getElementById('f-msg').value.trim();
+
+  /* Name validation */
+  const namePattern = /^[A-Za-z][A-Za-z .'-]{1,49}$/;
+
+  if (!namePattern.test(name)) {
+    formStatus.textContent = 'Please enter a valid name.';
+    formStatus.className = 'form-note error';
+    nameInput.focus();
+    return;
+  }
+
+  /* Phone validation */
+  const phonePattern = /^[6-9][0-9]{9}$/;
+
+  if (!phonePattern.test(phone)) {
+    formStatus.textContent = 'Please enter a valid 10-digit mobile number.';
+    formStatus.className = 'form-note error';
+    phoneInput.focus();
+    return;
+  }
+
+  /* Email validation */
+  if (!emailInput.checkValidity()) {
+    formStatus.textContent = 'Please enter a valid email address.';
+    formStatus.className = 'form-note error';
+    emailInput.focus();
+    return;
+  }
+
+  const whatsappMessage =
+`Hello Amite Invent-ory,
+
+I would like to make an enquiry.
+
+Name: ${name}
+Phone: ${phone}
+Email: ${email}
+Topic: ${topic}
+
+Message:
+${message}`;
+
+  const whatsappURL =
+    `https://wa.me/919884541498?text=${encodeURIComponent(whatsappMessage)}`;
+
+  formStatus.textContent = 'Opening WhatsApp...';
+  formStatus.className = 'form-note success';
+
+  window.open(whatsappURL, '_blank');
+
+  setTimeout(() => {
+    enquiryForm.reset();
+    formStatus.textContent =
+      'Thank you! Your enquiry is ready to send on WhatsApp.';
+  }, 500);
+});
+
+/* ---------- input restrictions ---------- */
+
+document.getElementById('f-name').addEventListener('input', function(){
+  this.value = this.value.replace(/[^A-Za-z .'-]/g, '');
+});
+
+document.getElementById('f-phone').addEventListener('input', function(){
+  this.value = this.value.replace(/\D/g, '').slice(0, 10);
+});
+
+
+/* ==================================================================
+   3D HERO SCENE — abstract engineering "world"
+   A simple wireframe core with orbiting nodes. Kept intentionally
+   plain so it doesn't compete with the dedicated circuit-board scene
+   further down the page.
+   ================================================================== */
+(function(){
+  const canvas = document.getElementById('heroCanvas');
+  if(!canvas || !window.THREE) return;
+  const wrap = canvas.parentElement;
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(45, wrap.clientWidth/wrap.clientHeight, 0.1, 100);
+  camera.position.set(0, 0.6, 7.2);
+  const renderer = new THREE.WebGLRenderer({canvas, alpha:true, antialias:true});
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setSize(wrap.clientWidth, wrap.clientHeight);
+
+  const skyColor = 0x2fa8e8;
+  const glowColor = 0x8fd6ff;
+  const navyColor = 0x0a5c94;
+
+  const group = new THREE.Group();
+  scene.add(group);
+
+  const coreGeo = new THREE.IcosahedronGeometry(1.55, 1);
+  const coreMat = new THREE.MeshBasicMaterial({color:skyColor, wireframe:true, transparent:true, opacity:0.85});
+  const core = new THREE.Mesh(coreGeo, coreMat);
+  group.add(core);
+  const coreSolidMat = new THREE.MeshBasicMaterial({color:0xffffff, transparent:true, opacity:0.04});
+  const coreSolid = new THREE.Mesh(coreGeo, coreSolidMat);
+  group.add(coreSolid);
+
+  const nodes = [];
+  const nodeCount = 8;
+  for(let i=0;i<nodeCount;i++){
+    const size = 0.09 + Math.random()*0.07;
+    const geo = new THREE.BoxGeometry(size, size, size);
+    const mat = new THREE.MeshBasicMaterial({color: i%2===0 ? glowColor : navyColor});
+    const mesh = new THREE.Mesh(geo, mat);
+    const radius = 2.5 + Math.random()*0.9;
+    const theta = (i/nodeCount) * Math.PI * 2;
+    const phi = Math.random()*Math.PI - Math.PI/2;
+    mesh.userData = {radius, theta, phi, speed: 0.15 + Math.random()*0.2, phiSpeed: 0.05 + Math.random()*0.1};
+    group.add(mesh);
+    nodes.push(mesh);
+
+    const lineMat = new THREE.LineBasicMaterial({color: skyColor, transparent:true, opacity:0.25});
+    const lineGeo = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(0,0,0), mesh.position.clone()]);
+    const line = new THREE.Line(lineGeo, lineMat);
+    group.add(line);
+    mesh.userData.line = line;
+  }
+
+  const ringGeo = new THREE.TorusGeometry(3.15, 0.006, 8, 90);
+  const ringMat = new THREE.MeshBasicMaterial({color: skyColor, transparent:true, opacity:0.35});
+  const ring = new THREE.Mesh(ringGeo, ringMat);
+  ring.rotation.x = Math.PI/2.3;
+  group.add(ring);
+
+  const ring2 = new THREE.Mesh(ringGeo.clone(), new THREE.MeshBasicMaterial({color:navyColor, transparent:true, opacity:0.2}));
+  ring2.rotation.x = Math.PI/2.3;
+  ring2.scale.set(1.22,1.22,1.22);
+  group.add(ring2);
+
+  let mouseX = 0, mouseY = 0;
+  wrap.addEventListener('mousemove', (e) => {
+    const r = wrap.getBoundingClientRect();
+    mouseX = ((e.clientX - r.left)/r.width - 0.5) * 2;
+    mouseY = ((e.clientY - r.top)/r.height - 0.5) * 2;
+  });
+
+  const clock = new THREE.Clock();
+  function animate(){
+    requestAnimationFrame(animate);
+    const t = clock.getElapsedTime();
+    core.rotation.y = t*0.18;
+    core.rotation.x = t*0.09;
+    coreSolid.rotation.copy(core.rotation);
+    ring.rotation.z = t*0.06;
+    ring2.rotation.z = -t*0.045;
+
+    nodes.forEach(n => {
+      const u = n.userData;
+      u.theta += 0.0035 * (u.speed*3);
+      const x = Math.cos(u.theta) * u.radius;
+      const z = Math.sin(u.theta) * u.radius;
+      const y = Math.sin(t*u.phiSpeed + u.phi) * 1.1;
+      n.position.set(x,y,z);
+      n.rotation.x += 0.01;
+      n.rotation.y += 0.015;
+      const pos = u.line.geometry.attributes.position;
+      pos.setXYZ(1, x, y, z);
+      pos.needsUpdate = true;
+    });
+
+    group.rotation.y += (mouseX*0.35 - group.rotation.y) * 0.04;
+    group.rotation.x += (-mouseY*0.2 - group.rotation.x) * 0.04;
+
+    renderer.render(scene, camera);
+  }
+  animate();
+
+  window.addEventListener('resize', () => {
+    const w = wrap.clientWidth, h = wrap.clientHeight;
+    camera.aspect = w/h; camera.updateProjectionMatrix();
+    renderer.setSize(w,h);
+  });
+})();
+
+
+</script>
+</body>
+</html>
